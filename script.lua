@@ -1,64 +1,67 @@
 
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
-local Window = OrionLib:MakeWindow({
-    Name = "VTBR CLAN SCRIPT", 
-    HidePremium = false, 
-    SaveConfig = true, 
-    ConfigFolder = "VTBRCLAN"
-})
+-- GUI Criada por KING (4M CLAN)
+-- Créditos: KING SCRIPT ☠️
 
--- Aba Main
-local MainTab = Window:MakeTab({
-	Name = "Main",
-	Icon = "",
-	PremiumOnly = false
-})
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Tabs = {}
+local TabNames = {"Main", "Farm", "Pets", "Misc", "Killer", "Teleport", "Credits"}
+local UICorner = Instance.new("UICorner")
+local TabContent = Instance.new("Frame")
 
-MainTab:AddToggle({
-	Name = "Anti-AFK System",
-	Default = false,
-	Callback = function(Value)
-        -- código anti afk
-	end
-})
+-- Propriedades da GUI
+ScreenGui.Name = "VTBR_CLAN_SCRIPT"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-MainTab:AddSection("Auto Brawls")
-MainTab:AddButton({
-	Name = "▶Auto Brawls",
-	Callback = function()
-        -- auto brawls code
-	end
-})
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 600, 0, 350)
+MainFrame.Position = UDim2.new(0.5, -300, 0.5, -175)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
 
-MainTab:AddButton({
-	Name = "▶Jungle Gym",
-	Callback = function()
-        -- jungle gym code
-	end
-})
+UICorner.CornerRadius = UDim.new(0, 4)
+UICorner.Parent = MainFrame
 
-MainTab:AddButton({
-	Name = "▶Entrenar Gimnasios",
-	Callback = function()
-        -- gym training code
-	end
-})
+Title.Name = "Title"
+Title.Text = "VTBR CLAN SCRIPT"
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.Parent = MainFrame
 
-MainTab:AddButton({
-	Name = "▶OP Things/Farms",
-	Callback = function()
-        -- OP farm code
-	end
-})
+TabContent.Name = "TabContent"
+TabContent.Position = UDim2.new(0, 0, 0, 40)
+TabContent.Size = UDim2.new(1, 0, 1, -40)
+TabContent.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+TabContent.Parent = MainFrame
 
--- Criar as outras abas
-local tabs = {"Farm", "Pets", "Misc", "Killer", "Teleport", "Credits"}
-for _, tabName in ipairs(tabs) do
-    Window:MakeTab({
-        Name = tabName,
-        Icon = "",
-        PremiumOnly = false
-    })
+-- Criando abas
+for i, tabName in pairs(TabNames) do
+    local button = Instance.new("TextButton")
+    button.Name = tabName
+    button.Text = tabName
+    button.Size = UDim2.new(0, 70, 0, 25)
+    button.Position = UDim2.new(0, (i - 1) * 75, 0, 5)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextScaled = true
+    button.Parent = MainFrame
+    Tabs[tabName] = button
 end
 
-OrionLib:Init()
+-- Exemplo de funções dentro da aba Main
+local options = {"Anti-AFK System", "Auto Brawls", "Jungle Gym", "Entrenar Gimnasios", "OP Things/Farms"}
+for i, name in ipairs(options) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -20, 0, 30)
+    button.Position = UDim2.new(0, 10, 0, (i - 1) * 35 + 10)
+    button.Text = name
+    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextScaled = true
+    button.Parent = TabContent
+end
