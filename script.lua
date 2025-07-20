@@ -1,37 +1,42 @@
--- KING SCRIPT Muscle Legends UI
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("💪 KING SCRIPT - Muscle Legends", "DarkTheme")
+-- GUI usando UI Lib
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall"))()
 
--- Main Tab
-local Main = Window:NewTab("Main")
-local FarmSection = Main:NewSection("Auto Farm")
+local Window = Library:CreateWindow("💪 KING SCRIPT - Muscle Legends")
+local FarmTab = Window:CreateFolder("Farm")
 
--- Variáveis
-local autoRock = false
-local selectedRock = "Tiny Rock"
+-- Auto Rock Dropdown
+local SelectedRock = nil
+local AutoFarmEnabled = false
 
--- Dropdown de Pedras
-FarmSection:NewDropdown("Selecionar Pedra", "Escolha a pedra para farmar", {
-    "Tiny Rock", "Starter Rock", "Legend Beach Rock", "Frozen Rock",
-    "Mythical Rock", "Eternal Rock", "Legend Rock", "Muscle King Rock", "Jungle Rock"
-}, function(option)
-    selectedRock = option
+FarmTab:Toggle("Auto Rock", function(value)
+    AutoFarmEnabled = value
 end)
 
--- Toggle Auto Rock
-FarmSection:NewToggle("Auto Rock", "Farm automático na pedra", function(state)
-    autoRock = state
-    if autoRock then
-        while autoRock and wait(0.3) do
-            local rock = workspace:FindFirstChild(selectedRock)
+FarmTab:Dropdown("Selecionar Rock", {
+    "Tiny Rock",
+    "Starter Rock",
+    "Legend Beach Rock",
+    "Frozen Rock",
+    "Mythical Rock",
+    "Eternal Rock",
+    "Legend Rock",
+    "Muscle King Rock",
+    "Jungle Rock"
+}, true, function(selected)
+    SelectedRock = selected
+end)
+
+-- Auto Farm Loop
+spawn(function()
+    while true do
+        wait(0.5)
+        if AutoFarmEnabled and SelectedRock then
+            local rock = workspace:FindFirstChild(SelectedRock)
             if rock then
-                game:GetService("ReplicatedStorage").Events.StrengthEvent:FireServer(rock, "Hit")
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = rock.CFrame + Vector3.new(0, 3, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.Head, rock, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.Head, rock, 1)
             end
         end
     end
 end)
-
--- Créditos
-local Credits = Window:NewTab("Credits")
-local CreditsSection = Credits:NewSection("Feito por KING - 4M CLAN SCRIPT")
-CreditsSection:NewLabel("Script 100% gratuito")
