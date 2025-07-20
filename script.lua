@@ -13,8 +13,7 @@ Button.TextColor3 = Color3.new(1, 1, 1)
 
 Button.MouseButton1Click:Connect(function()
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "4M CLAN SCRIPT",
-        Text = "Botão funcionando!",
-        Duration = 3
-    })
-end)
+    Title = "4M CLAN SCRIPT",
+    Text = "Script iniciado!",
+    Duration = 3
+})
