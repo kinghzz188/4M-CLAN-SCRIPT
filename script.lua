@@ -1,70 +1,20 @@
--- Carrega a UI library Orion
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+-- VTBR CLAN SCRIPT Interface -- Criado por: kinghzz188 (4M CLAN)
 
--- Janela principal
-local Window = OrionLib:MakeWindow({
-    Name = "4M CLAN SCRIPT",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "4MCLANCONFIG"
-})
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() local Window = Library.CreateLib("▼ VTBR CLAN SCRIPT", "DarkTheme")
 
--- Aba Main
-local MainTab = Window:MakeTab({
-    Name = "Main",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+-- Aba Main local Main = Window:NewTab("Main") local MainSection = Main:NewSection("Main")
 
-MainTab:AddButton({
-    Name = "Auto Rebirth",
-    Callback = function()
-        print("Auto Rebirth ativado")
-    end
-})
+MainSection:NewButton("▶Auto Rock", "Ativa o farm na pedra", function() print("Auto Rock ativado") end)
 
-MainTab:AddButton({
-    Name = "Auto Upgrade",
-    Callback = function()
-        print("Auto Upgrade ativado")
-    end
-})
+MainSection:NewButton("▶Rebirths", "Faz renascimento automático", function() print("Auto Rebirth ativado") end)
 
-MainTab:AddButton({
-    Name = "Auto Farm",
-    Callback = function()
-        print("Auto Farm ativado")
-    end
-})
+MainSection:NewButton("▶Auto Equip Tools", "Equipa ferramentas automaticamente", function() print("Auto Equip ativado") end)
 
--- Aba Teleport
-local TeleportTab = Window:MakeTab({
-    Name = "Teleport",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+MainSection:NewLabel("▼Stats") MainSection:NewLabel("Strength") MainSection:NewLabel("Actual: 2.10T") MainSection:NewLabel("Gained: 0") MainSection:NewLabel("Durability") MainSection:NewLabel("Actual: 6.12T") MainSection:NewLabel("Gained: 0") MainSection:NewLabel("Rebirths") MainSection:NewLabel("Actual: 18.98K")
 
-TeleportTab:AddButton({Name = "Spawn", Callback = function() print("Teleport: Spawn") end})
-TeleportTab:AddButton({Name = "Secret Area", Callback = function() print("Teleport: Secret Area") end})
-TeleportTab:AddButton({Name = "Tiny Island", Callback = function() print("Teleport: Tiny Island") end})
-TeleportTab:AddButton({Name = "Teleport Frozen", Callback = function() print("Teleport: Frozen") end})
-TeleportTab:AddButton({Name = "Mythical", Callback = function() print("Teleport: Mythical") end})
-TeleportTab:AddButton({Name = "Inferno", Callback = function() print("Teleport: Inferno") end})
-TeleportTab:AddButton({Name = "Legend", Callback = function() print("Teleport: Legend") end})
-TeleportTab:AddButton({Name = "Muscle King Gym", Callback = function() print("Teleport: Gym") end})
-TeleportTab:AddButton({Name = "Jungle", Callback = function() print("Teleport: Jungle") end})
-TeleportTab:AddButton({Name = "Brawl Lava", Callback = function() print("Teleport: Lava") end})
-TeleportTab:AddButton({Name = "Brawl Desert", Callback = function() print("Teleport: Desert") end})
-TeleportTab:AddButton({Name = "Brawl Regular", Callback = function() print("Teleport: Regular") end})
+-- Outras abas (Farm, Pets, Misc, Killer, Teleport, Credits) Window:NewTab("Farm") Window:NewTab("Pets") Window:NewTab("Misc") Window:NewTab("Killer") Window:NewTab("Teleport")
 
--- Aba Créditos
-local CreditsTab = Window:MakeTab({
-    Name = "Credits",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local Credits = Window:NewTab("Credits") local CreditSection = Credits:NewSection("Créditos") CreditSection:NewLabel("Script feito por Sad & Nii.") CreditSection:NewLabel("VTBR")
 
-CreditsTab:AddParagraph("Script feito por", "Sad & Nii.\nVTBR")
+-- Fim do Script
 
--- Inicializa a interface
-OrionLib:Init()
