@@ -1,42 +1,57 @@
--- GUI usando UI Lib
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall"))()
+-- Rayfield UI Lib
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
-local Window = Library:CreateWindow("💪 KING SCRIPT - Muscle Legends")
-local FarmTab = Window:CreateFolder("Farm")
+local Window = Rayfield:CreateWindow({
+   Name = "💪 KING SCRIPT - Muscle Legends",
+   LoadingTitle = "KING SCRIPT",
+   LoadingSubtitle = "by KING",
+   ConfigurationSaving = {
+      Enabled = false
+   },
+   Discord = {
+      Enabled = false
+   },
+   KeySystem = false
+})
 
--- Auto Rock Dropdown
+local FarmTab = Window:CreateTab("🏋️ Auto Farm", 4483362458)
+
 local SelectedRock = nil
-local AutoFarmEnabled = false
+local AutoRockOn = false
 
-FarmTab:Toggle("Auto Rock", function(value)
-    AutoFarmEnabled = value
-end)
+FarmTab:CreateToggle({
+   Name = "Auto Rock",
+   CurrentValue = false,
+   Callback = function(Value)
+       AutoRockOn = Value
+   end,
+})
 
-FarmTab:Dropdown("Selecionar Rock", {
-    "Tiny Rock",
-    "Starter Rock",
-    "Legend Beach Rock",
-    "Frozen Rock",
-    "Mythical Rock",
-    "Eternal Rock",
-    "Legend Rock",
-    "Muscle King Rock",
-    "Jungle Rock"
-}, true, function(selected)
-    SelectedRock = selected
-end)
+FarmTab:CreateDropdown({
+   Name = "Escolher Pedra",
+   Options = {
+       "Tiny Rock", "Starter Rock", "Legend Beach Rock",
+       "Frozen Rock", "Mythical Rock", "Eternal Rock",
+       "Legend Rock", "Muscle King Rock", "Jungle Rock"
+   },
+   CurrentOption = "Starter Rock",
+   Callback = function(Option)
+       SelectedRock = Option
+   end,
+})
 
--- Auto Farm Loop
-spawn(function()
-    while true do
-        wait(0.5)
-        if AutoFarmEnabled and SelectedRock then
-            local rock = workspace:FindFirstChild(SelectedRock)
-            if rock then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = rock.CFrame + Vector3.new(0, 3, 0)
-                firetouchinterest(game.Players.LocalPlayer.Character.Head, rock, 0)
-                firetouchinterest(game.Players.LocalPlayer.Character.Head, rock, 1)
-            end
-        end
-    end
+-- Loop Auto Rock
+task.spawn(function()
+   while true do
+       task.wait(0.5)
+       if AutoRockOn and SelectedRock then
+           local rock = workspace:FindFirstChild(SelectedRock)
+           if rock and game.Players.LocalPlayer.Character then
+               local char = game.Players.LocalPlayer.Character
+               char:WaitForChild("HumanoidRootPart").CFrame = rock.CFrame + Vector3.new(0, 3, 0)
+               firetouchinterest(char.Head, rock, 0)
+               firetouchinterest(char.Head, rock, 1)
+           end
+       end
+   end
 end)
