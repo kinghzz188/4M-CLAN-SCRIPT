@@ -1,67 +1,49 @@
 
--- GUI Criada por KING (4M CLAN)
--- Créditos: KING SCRIPT ☠️
+-- KING SCRIPT 👑 para Muscle Legends
+-- Créditos: VTBR_KING
 
-local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-local Tabs = {}
-local TabNames = {"Main", "Farm", "Pets", "Misc", "Killer", "Teleport", "Credits"}
-local UICorner = Instance.new("UICorner")
-local TabContent = Instance.new("Frame")
+-- Carregar UI Library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/UI-Librarys/main/FluxLib.txt"))()
+local Window = Library:CreateWindow("KING SCRIPT 👑", "by VTBR_KING", Color3.fromRGB(35, 35, 35), Color3.fromRGB(0, 200, 255), "muscle_legends_gui")
 
--- Propriedades da GUI
-ScreenGui.Name = "VTBR_CLAN_SCRIPT"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Aba Principal
+local Main = Window:CreateTab("Main")
+Main:CreateToggle("🛡️ Anti-AFK System", function(state)
+    if state then
+        local vu = game:GetService("VirtualUser")
+        game:GetService("Players").LocalPlayer.Idled:connect(function()
+            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            wait(1)
+            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        end)
+    end
+end)
 
-MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 600, 0, 350)
-MainFrame.Position = UDim2.new(0.5, -300, 0.5, -175)
-MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-MainFrame.BorderSizePixel = 0
-MainFrame.Parent = ScreenGui
+Main:CreateButton("⚔️ Auto Brawls", function()
+    print("Auto Brawls Ativado")
+end)
 
-UICorner.CornerRadius = UDim.new(0, 4)
-UICorner.Parent = MainFrame
+Main:CreateButton("🏋️ Jungle Gym", function()
+    print("Jungle Gym Ativado")
+end)
 
-Title.Name = "Title"
-Title.Text = "VTBR CLAN SCRIPT"
-Title.Size = UDim2.new(1, 0, 0, 40)
-Title.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextScaled = true
-Title.Parent = MainFrame
+Main:CreateButton("🏃‍♂️ Entrenar Gimnasios", function()
+    print("Entrenar Gimnasios Ativado")
+end)
 
-TabContent.Name = "TabContent"
-TabContent.Position = UDim2.new(0, 0, 0, 40)
-TabContent.Size = UDim2.new(1, 0, 1, -40)
-TabContent.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-TabContent.Parent = MainFrame
+Main:CreateButton("🔥 OP Things/Farms", function()
+    print("Farms Ativadas")
+end)
 
--- Criando abas
-for i, tabName in pairs(TabNames) do
-    local button = Instance.new("TextButton")
-    button.Name = tabName
-    button.Text = tabName
-    button.Size = UDim2.new(0, 70, 0, 25)
-    button.Position = UDim2.new(0, (i - 1) * 75, 0, 5)
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.TextScaled = true
-    button.Parent = MainFrame
-    Tabs[tabName] = button
-end
+-- Outras Abas (placeholders)
+Window:CreateTab("Farm")
+Window:CreateTab("Pets")
+Window:CreateTab("Misc")
+Window:CreateTab("Killer")
+Window:CreateTab("Teleport")
 
--- Exemplo de funções dentro da aba Main
-local options = {"Anti-AFK System", "Auto Brawls", "Jungle Gym", "Entrenar Gimnasios", "OP Things/Farms"}
-for i, name in ipairs(options) do
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, -20, 0, 30)
-    button.Position = UDim2.new(0, 10, 0, (i - 1) * 35 + 10)
-    button.Text = name
-    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.TextScaled = true
-    button.Parent = TabContent
-end
+-- Créditos
+local Credits = Window:CreateTab("Credits")
+Credits:CreateLabel("KING SCRIPT 👑")
+Credits:CreateLabel("Feito por VTBR_KING")
+Credits:CreateLabel("Discord: em breve...")
