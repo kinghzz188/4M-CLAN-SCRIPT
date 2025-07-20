@@ -1,23 +1,15 @@
--- Interface KING SCRIPT com barra preta no topo
+-- Remove barra antiga com nome "VTBR CLAN SCRIPT"
+for _, v in pairs(game.CoreGui:GetChildren()) do
+    if v.Name == "VTBR CLAN SCRIPT" then
+        v:Destroy()
+    end
+end
 
--- Criar barra preta no topo
-local TopBar = Instance.new("TextLabel")
-TopBar.Text = "▼ KING SCRIPT"
-TopBar.Size = UDim2.new(0, 300, 0, 30)
-TopBar.Position = UDim2.new(0.5, -150, 0, 10)
-TopBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-TopBar.TextColor3 = Color3.fromRGB(255, 255, 255)
-TopBar.Font = Enum.Font.SourceSansBold
-TopBar.TextSize = 20
-TopBar.BorderSizePixel = 0
-TopBar.Name = "KingTopBar"
-TopBar.Parent = game:GetService("CoreGui")
-
--- Script da interface Kavo
+-- Interface KING SCRIPT
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("▼ KING SCRIPT", "DarkTheme")
 
--- Aba Main
+-- Main Tab
 local Main = Window:NewTab("Main")
 local MainSection = Main:NewSection("")
 
@@ -31,9 +23,9 @@ end)
 
 MainSection:NewToggle("▶Rebirths", "Rebirth automático", function(state)
     if state then
-        print("Rebirth ligado")
+        print("Rebirth automático ligado")
     else
-        print("Rebirth desligado")
+        print("Rebirth automático desligado")
     end
 end)
 
@@ -49,17 +41,30 @@ MainSection:NewButton("▼ Stats", "Ver estatísticas", function()
     print("Mostrando stats...")
 end)
 
--- Abas vazias
-Window:NewTab("Farm"):NewSection("Breve")
-Window:NewTab("Pets"):NewSection("Breve")
-Window:NewTab("Misc"):NewSection("Breve")
-Window:NewTab("Killer"):NewSection("Breve")
-Window:NewTab("Teleport"):NewSection("Breve")
+-- Farm Tab
+local Farm = Window:NewTab("Farm")
+local FarmSection = Farm:NewSection("Breve")
 
--- Créditos
+-- Pets Tab
+local Pets = Window:NewTab("Pets")
+local PetsSection = Pets:NewSection("Breve")
+
+-- Misc Tab
+local Misc = Window:NewTab("Misc")
+local MiscSection = Misc:NewSection("Breve")
+
+-- Killer Tab
+local Killer = Window:NewTab("Killer")
+local KillerSection = Killer:NewSection("Breve")
+
+-- Teleport Tab
+local Teleport = Window:NewTab("Teleport")
+local TeleportSection = Teleport:NewSection("Breve")
+
+-- Credits Tab
 local Credits = Window:NewTab("Credits")
-Credits:NewSection("Script feito por Sad & Nii.")
-Credits:NewSection("VTBR")
+local CreditsSection = Credits:NewSection("Script feito por Sad & Nii.")
+CreditsSection:NewLabel("KING SCRIPT")
 
--- Mensagem final
-print("KING SCRIPT com barra personalizada carregado com sucesso!")
+-- Final
+print("Interface KING SCRIPT carregada com sucesso!")
