@@ -1,63 +1,92 @@
--- Interface KING SCRIPT
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("▼ KING SCRIPT", "DarkTheme")
+-- KING SCRIPT UI Estilo VTBR
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({
+    Name = "KING SCRIPT",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "KingScript"
+})
 
--- Main Tab
-local Main = Window:NewTab("Main")
-local MainSection = Main:NewSection("")
-
-MainSection:NewToggle("▶Auto Rock", "Farm automático na pedra", function(state)
-    if state then
-        print("Auto Rock ligado")
-    else
-        print("Auto Rock desligado")
-    end
+-- Anti-AFK
+local VirtualUser = game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+    VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    task.wait(1)
+    VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
 
-MainSection:NewToggle("▶Rebirths", "Rebirth automático", function(state)
-    if state then
-        print("Rebirth automático ligado")
-    else
-        print("Rebirth automático desligado")
-    end
-end)
+-- MAIN
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-MainSection:NewToggle("▶Auto Equip Tools", "Equipe ferramentas automaticamente", function(state)
-    if state then
-        print("Auto Equip Tools ligado")
-    else
-        print("Auto Equip Tools desligado")
-    end
-end)
+MainTab:AddToggle({
+    Name = "Auto Rock",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            print("Auto Rock ligado")
+            -- Coloque sua lógica de farm na pedra aqui
+        else
+            print("Auto Rock desligado")
+        end
+    end    
+})
 
-MainSection:NewButton("▼ Stats", "Ver estatísticas", function()
-    print("Mostrando stats...")
-end)
+MainTab:AddToggle({
+    Name = "Rebirths",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            print("Rebirth automático ligado")
+            -- Lógica de renascer aqui
+        else
+            print("Rebirth automático desligado")
+        end
+    end    
+})
 
--- Farm Tab
-local Farm = Window:NewTab("Farm")
-local FarmSection = Farm:NewSection("Breve")
+MainTab:AddToggle({
+    Name = "Auto Equip Tools",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            print("Auto Equip Tools ligado")
+            -- Código para equipar ferramentas
+        else
+            print("Auto Equip Tools desligado")
+        end
+    end    
+})
 
--- Pets Tab
-local Pets = Window:NewTab("Pets")
-local PetsSection = Pets:NewSection("Breve")
+MainTab:AddButton({
+    Name = "Stats",
+    Callback = function()
+        print("Exibindo estatísticas...")
+        -- Código para exibir stats aqui
+    end    
+})
 
--- Misc Tab
-local Misc = Window:NewTab("Misc")
-local MiscSection = Misc:NewSection("Breve")
+-- Crie outras abas como Farm, Pets, Misc etc. da mesma forma:
+local FarmTab = Window:MakeTab({Name = "Farm", Icon = "", PremiumOnly = false})
+FarmTab:AddParagraph("Breve", "Mais funções serão adicionadas")
 
--- Killer Tab
-local Killer = Window:NewTab("Killer")
-local KillerSection = Killer:NewSection("Breve")
+local PetsTab = Window:MakeTab({Name = "Pets", Icon = "", PremiumOnly = false})
+PetsTab:AddParagraph("Breve", "Mais funções serão adicionadas")
 
--- Teleport Tab
-local Teleport = Window:NewTab("Teleport")
-local TeleportSection = Teleport:NewSection("Breve")
+local MiscTab = Window:MakeTab({Name = "Misc", Icon = "", PremiumOnly = false})
+MiscTab:AddParagraph("Breve", "Mais funções serão adicionadas")
 
--- Credits Tab
-local Credits = Window:NewTab("Credits")
-local CreditsSection = Credits:NewSection("Script feito por Sad & Nii.")
-CreditsSection:NewLabel("VTBR")
+local KillerTab = Window:MakeTab({Name = "Killer", Icon = "", PremiumOnly = false})
+KillerTab:AddParagraph("Breve", "Mais funções serão adicionadas")
 
--- Final
-print("Interface carregada com sucesso!")
+local TeleportTab = Window:MakeTab({Name = "Teleport", Icon = "", PremiumOnly = false})
+TeleportTab:AddParagraph("Breve", "Mais funções serão adicionadas")
+
+local CreditsTab = Window:MakeTab({Name = "Credits", Icon = "", PremiumOnly = false})
+CreditsTab:AddParagraph("Feito por:", "Sad & Nii - VTBR")
+
+-- Inicia UI
+OrionLib:Init()
