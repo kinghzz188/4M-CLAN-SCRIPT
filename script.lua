@@ -1,16 +1,78 @@
--- KING SCRIPT - Script Roblox -- Feito por KING 💀
+-- KING SCRIPT 💀 por KING
 
--- Proteção Anti-AFK local vu = game:GetService("VirtualUser") game:GetService("Players").LocalPlayer.Idled:Connect(function() vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame) wait(1) vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame) end)
+-- Carregando UI Library (usando Rayfield como exemplo)
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
--- Interface local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() local Window = Library.CreateLib("KING SCRIPT", "DarkTheme")
+local Window = Rayfield:CreateWindow({
+   Name = "KING SCRIPT 💀",
+   LoadingTitle = "KING SCRIPT Loading...",
+   LoadingSubtitle = "By KING",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "KING_SCRIPT", -- Para configs salvas
+   },
+   Discord = {
+      Enabled = false,
+   },
+   KeySystem = false
+})
 
--- Tab principal local Main = Window:NewTab("Main") local MainSection = Main:NewSection("Auto Farm")
+-- MAIN
+local MainTab = Window:CreateTab("Main", 4483362458)
 
--- Auto Rock MainSection:NewToggle("Auto Rock", "Treina automaticamente", function(state) _G.AutoRock = state while _G.AutoRock do game:GetService("ReplicatedStorage").RemoteEvent:FireServer("Rock") wait(0.1) end end)
+MainTab:CreateToggle({
+   Name = "Anti-AFK System",
+   CurrentValue = false,
+   Callback = function(Value)
+       if Value then
+           local vu = game:GetService("VirtualUser")
+           game:GetService("Players").LocalPlayer.Idled:connect(function()
+               vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+               wait(1)
+               vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+           end)
+       end
+   end,
+})
 
--- Auto Rebirth MainSection:NewToggle("Auto Rebirth", "Renascimentos automáticos", function(state) _G.AutoRebirth = state while _G.AutoRebirth do game:GetService("ReplicatedStorage").RemoteEvent:FireServer("Rebirth") wait(5) end end)
+MainTab:CreateButton({
+   Name = "Auto Brawls",
+   Callback = function()
+       while true do
+           game.ReplicatedStorage.Brawl:FireServer()
+           wait(5)
+       end
+   end,
+})
 
--- Auto Equip Tools MainSection:NewToggle("Auto Equip Tools", "Equipe ferramentas automaticamente", function(state) _G.AutoEquip = state while _G.AutoEquip do for _, tool in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do if tool:IsA("Tool") then game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool) end end wait(3) end end)
+MainTab:CreateButton({
+   Name = "Jungle Gym",
+   Callback = function()
+       local args = {
+           [1] = "JungleGym"
+       }
+       game:GetService("ReplicatedStorage").Gym:FireServer(unpack(args))
+   end,
+})
 
--- Créditos local Credit = Window:NewTab("Créditos") local CreditSection = Credit:NewSection("Script criado por KING 💀")
+MainTab:CreateButton({
+   Name = "Entrenar Gimnasios",
+   Callback = function()
+       for i,v in pairs(game:GetService("Workspace").Gyms:GetChildren()) do
+           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+           wait(2)
+       end
+   end,
+})
 
+MainTab:CreateButton({
+   Name = "OP Things/Farms",
+   Callback = function()
+       loadstring(game:HttpGet("https://pastebin.com/raw/zRkCgAtg"))()
+   end,
+})
+
+-- ABA DE CRÉDITOS
+local CreditsTab = Window:CreateTab("Credits", 4483362458)
+
+CreditsTab:CreateParagraph({Title = "KING SCRIPT", Content = "Criado por KING 💀\nInterface inspirada no VTBR CLAN SCRIPT."})
