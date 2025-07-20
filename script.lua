@@ -1,88 +1,83 @@
---[[
-    VTBR CLAN SCRIPT - Muscle Legends
-    Criado por KING
---]]
-
--- UI Library
+-- Carrega a interface estilo Kavo UI
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("💪 VTBR CLAN SCRIPT", "DarkTheme")
+local Window = Library.CreateLib("▼ KING SCRIPT", "DarkTheme")
 
--- ABA: Main
-local TabMain = Window:NewTab("Main")
-local SectionMain = TabMain:NewSection("Auto Farm")
-
--- ABA: Farm
-local TabFarm = Window:NewTab("Farm")
-local SectionAutoRock = TabFarm:NewSection("Auto Rock")
-local SectionRebirth = TabFarm:NewSection("Rebirths")
-local SectionEquip = TabFarm:NewSection("Auto Equip Tools")
-local SectionStats = TabFarm:NewSection("Stats")
+-- 🧱 Aba Principal (Main)
+local Main = Window:NewTab("Main")
+local MainSection = Main:NewSection("Farm")
 
 -- Auto Rock
-local autoRockEnabled = false
-local selectedRock = ""
-
-local rocks = {
-    "Tiny Rock",
-    "Starter Rock",
-    "Legend Beach Rock",
-    "Frozen Rock",
-    "Mythical Rock",
-    "Eternal Rock",
-    "Legend Rock",
-    "Muscle King Rock",
-    "Jungle Rock"
-}
-
-SectionAutoRock:NewToggle("Auto Rock", "Ativa/desativa Auto Rock", function(state)
-    autoRockEnabled = state
-end)
-
-for _, rock in ipairs(rocks) do
-    SectionAutoRock:NewButton(rock, "Selecionar " .. rock, function()
-        selectedRock = rock
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Auto Rock",
-            Text = rock .. " selecionada",
-            Duration = 3
-        })
-    end)
-end
-
--- Loop de Auto Rock
-task.spawn(function()
-    while true do
-        if autoRockEnabled and selectedRock ~= "" then
-            local tool = nil
-            for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                if v:IsA("Tool") and v.Name == selectedRock then
-                    tool = v
-                    break
-                end
-            end
-            if tool then
-                tool.Parent = game.Players.LocalPlayer.Character
-                tool:Activate()
-            end
-        end
-        task.wait(0.5)
+local autoRock = false
+MainSection:NewToggle("▶ Auto Rock", "Ativa farm na pedra", function(state)
+    autoRock = state
+    while autoRock do
+        local args = {[1] = workspace:FindFirstChild("RockStage")}
+        game:GetService("ReplicatedStorage").Events.Train:FireServer(unpack(args))
+        task.wait(0.1)
     end
 end)
 
--- Abas restantes (exemplo de estrutura)
-local TabPets = Window:NewTab("Pets")
-TabPets:NewSection("Sistema de Pets em breve...")
+-- Auto Rebirth
+local autoRebirth = false
+MainSection:NewToggle("▶ Auto Rebirth", "Rebirth automático", function(state)
+    autoRebirth = state
+    while autoRebirth do
+        game:GetService("ReplicatedStorage").Events.Rebirth:FireServer()
+        task.wait(1)
+    end
+end)
 
-local TabMisc = Window:NewTab("Misc")
-TabMisc:NewSection("Outros recursos aqui.")
+-- Auto Equip
+MainSection:NewButton("▶ Auto Equip Tool", "Equipe a ferramenta automaticamente", function()
+    local tool = game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+    if tool then
+        game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+    end
+end)
 
-local TabKiller = Window:NewTab("Killer")
-TabKiller:NewSection("Modo PVP em breve...")
+-- 📊 Stats
+MainSection:NewButton("▼ Mostrar Stats", "Abre estatísticas", function()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "KING SCRIPT",
+        Text = "Mostrando estatísticas...",
+        Duration = 3
+    })
+end)
 
-local TabTeleport = Window:NewTab("Teleport")
-TabTeleport:NewSection("Teleporte personalizado em breve...")
+-- 🐾 Aba de Pets
+local Pets = Window:NewTab("Pets")
+local PetsSection = Pets:NewSection("Em breve")
 
-local TabCredits = Window:NewTab("Credits")
-TabCredits:NewSection("Feito por: KING / VTBR CLAN")
+-- 💀 Killer
+local Killer = Window:NewTab("Killer")
+local KillerSection = Killer:NewSection("Em breve")
 
--- FIM
+-- 🌍 Teleport
+local Teleport = Window:NewTab("Teleport")
+local TeleportSection = Teleport:NewSection("Em breve")
+
+-- 🎮 Misc
+local Misc = Window:NewTab("Misc")
+local MiscSection = Misc:NewSection("Anti AFK")
+
+-- Anti AFK
+MiscSection:NewButton("▶ Ativar Anti-AFK", "Evita ser kickado por inatividade", function()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:Connect(function()
+        vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        task.wait(1)
+        vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    end)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "KING SCRIPT",
+        Text = "Anti AFK Ativado",
+        Duration = 5
+    })
+end)
+
+-- 🙏 Créditos
+local Credits = Window:NewTab("Credits")
+local CreditsSection = Credits:NewSection("Criado por KING")
+CreditsSection:NewLabel("Script feito com ChatGPT")
+
+print("KING SCRIPT carregado com sucesso.")
