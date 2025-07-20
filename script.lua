@@ -1,24 +1,29 @@
 
--- KING SCRIPT 
--- Feito por KING
+-- KING SCRIPT 💀 - Interface VTBR Style
 
--- UI LIBRARY
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("KING SCRIPT 💀", "DarkTheme")
 
--- TABS
-local MainTab = Window:NewTab("Main")
-local FarmTab = Window:NewTab("Farm")
-local PetsTab = Window:NewTab("Pets")
-local MiscTab = Window:NewTab("Misc")
-local KillerTab = Window:NewTab("Killer")
-local TeleportTab = Window:NewTab("Teleport")
-local CreditsTab = Window:NewTab("Credits")
+-- Abas principais
+local Main = Window:NewTab("Main")
+local Farm = Window:NewTab("Farm")
+local Pets = Window:NewTab("Pets")
+local Misc = Window:NewTab("Misc")
+local Killer = Window:NewTab("Killer")
+local Teleport = Window:NewTab("Teleport")
+local Credits = Window:NewTab("Credits")
 
--- MAIN SECTION
-local MainSection = MainTab:NewSection("")
+-- Seções dentro das Abas
+local MainSection = Main:NewSection("Main")
+local FarmSection = Farm:NewSection("Farm")
+local PetsSection = Pets:NewSection("Pets")
+local MiscSection = Misc:NewSection("Misc")
+local KillerSection = Killer:NewSection("Killer")
+local TeleportSection = Teleport:NewSection("Teleport")
+local CreditSection = Credits:NewSection("Créditos")
 
-MainSection:NewToggle("Anti-AFK System", "Evita ser kickado por inatividade", function(state)
+-- Botões principais (estilo VTBR)
+MainSection:NewToggle("Anti-AFK System", "Ativa sistema anti-AFK", function(state)
     if state then
         local vu = game:GetService("VirtualUser")
         game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -29,22 +34,22 @@ MainSection:NewToggle("Anti-AFK System", "Evita ser kickado por inatividade", fu
     end
 end)
 
-MainSection:NewButton("Auto Brawls", "Participa automaticamente dos brawls", function()
+MainSection:NewButton("Auto Brawls", "Entra automaticamente nos Brawls", function()
     print("Auto Brawls ativado")
 end)
 
-MainSection:NewButton("Jungle Gym", "Teleporta e treina no Jungle Gym", function()
+MainSection:NewButton("Jungle Gym", "Teleporta para a Jungle Gym", function()
     print("Jungle Gym ativado")
 end)
 
-MainSection:NewButton("Entrenar Gimnasios", "Treina automaticamente nas academias", function()
-    print("Treinando nas academias")
+MainSection:NewButton("Entrenar Gimnasios", "Treina automaticamente nos gimnasios", function()
+    print("Treino iniciado")
 end)
 
-MainSection:NewButton("OP Things/Farms", "Farms e recursos apelões", function()
-    print("Farms ativados")
+MainSection:NewButton("OP Things/Farms", "Coisas/Farms overpower", function()
+    print("OP Farms ativado")
 end)
 
--- CREDITS SECTION
-local CreditsSection = CreditsTab:NewSection("Feito por KING")
-CreditsSection:NewLabel("Obrigado por usar o KING SCRIPT 💀")
+-- Créditos
+CreditSection:NewLabel("Script feito por VTBR_KING")
+CreditSection:NewLabel("Interface baseada no VTBR CLAN SCRIPT")
