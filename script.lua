@@ -1,60 +1,81 @@
--- GUI do 4M CLAN SCRIPT
+-- Gui principal
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "ClanScriptUI"
-ScreenGui.ResetOnSpawn = false
+local MainFrame = Instance.new("Frame")
+local Tabs = Instance.new("Frame")
+local MiscButton = Instance.new("TextButton")
+local Pages = Instance.new("Frame")
+local MiscPage = Instance.new("Frame")
+local AntiAfkToggle = Instance.new("TextButton")
+
+-- Parent do Gui
 ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "4MCLAN_GUI"
+ScreenGui.ResetOnSpawn = false
 
-local Frame = Instance.new("Frame", ScreenGui)
-Frame.Size = UDim2.new(0, 250, 0, 220)
-Frame.Position = UDim2.new(0.5, -125, 0.5, -110)
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.BorderSizePixel = 0
-Frame.Active = true
-Frame.Draggable = true
+-- MainFrame
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.Size = UDim2.new(0, 300, 0, 250)
+MainFrame.Position = UDim2.new(0.1, 0, 0.2, 0)
 
-local UICorner = Instance.new("UICorner", Frame)
-UICorner.CornerRadius = UDim.new(0, 8)
+-- Tabs
+Tabs.Name = "Tabs"
+Tabs.Parent = MainFrame
+Tabs.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Tabs.Size = UDim2.new(1, 0, 0, 30)
 
-local Title = Instance.new("TextLabel", Frame)
-Title.Size = UDim2.new(1, 0, 0, 40)
-Title.Text = "4M CLAN SCRIPT"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 18
-Instance.new("UICorner", Title).CornerRadius = UDim.new(0, 8)
-
--- Função de botão
-local function createButton(text, yPos, callback)
-    local Button = Instance.new("TextButton", Frame)
-    Button.Size = UDim2.new(1, -20, 0, 40)
-    Button.Position = UDim2.new(0, 10, 0, yPos)
-    Button.Text = text
-    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 200)
-    Button.TextColor3 = Color3.new(1, 1, 1)
-    Button.Font = Enum.Font.Gotham
-    Button.TextSize = 14
-    Instance.new("UICorner", Button).CornerRadius = UDim.new(0, 6)
-
-    Button.MouseButton1Click:Connect(callback)
-end
-
--- Botões e prints (depois trocamos por funções reais)
-createButton("Auto Rebirth", 50, function()
-    print("Auto Rebirth ativado")
+-- Botão da aba Misc
+MiscButton.Name = "MiscButton"
+MiscButton.Parent = Tabs
+MiscButton.Text = "Misc"
+MiscButton.Size = UDim2.new(0, 60, 1, 0)
+MiscButton.BackgroundColor3 = Color3.fromRGB(55, 55, 255)
+MiscButton.TextColor3 = Color3.new(1,1,1)
+MiscButton.MouseButton1Click:Connect(function()
+	Pages.MiscPage.Visible = true
 end)
 
-createButton("Auto Upgrade", 100, function()
-    print("Auto Upgrade ativado")
-end)
+-- Páginas
+Pages.Name = "Pages"
+Pages.Parent = MainFrame
+Pages.Size = UDim2.new(1, 0, 1, -30)
+Pages.Position = UDim2.new(0, 0, 0, 30)
 
-createButton("Auto Farm", 150, function()
-    print("Auto Farm ativado")
-end)
+-- Página Misc
+MiscPage.Name = "MiscPage"
+MiscPage.Parent = Pages
+MiscPage.Size = UDim2.new(1, 0, 1, 0)
+MiscPage.Visible = true
+MiscPage.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 
--- Notificação de sucesso
-game.StarterGui:SetCore("SendNotification", {
-    Title = "4M CLAN SCRIPT",
-    Text = "Script iniciado com sucesso!",
-    Duration = 3
-})
+-- Botão Anti AFK
+AntiAfkToggle.Name = "AntiAfkToggle"
+AntiAfkToggle.Parent = MiscPage
+AntiAfkToggle.Text = "Ativar Anti-AFK"
+AntiAfkToggle.Size = UDim2.new(0, 200, 0, 50)
+AntiAfkToggle.Position = UDim2.new(0, 50, 0, 50)
+AntiAfkToggle.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+AntiAfkToggle.TextColor3 = Color3.new(1, 1, 1)
+
+-- Variável de controle
+local antiAfkAtivado = false
+local conexaoAfk = nil
+
+AntiAfkToggle.MouseButton1Click:Connect(function()
+	antiAfkAtivado = not antiAfkAtivado
+	if antiAfkAtivado then
+		AntiAfkToggle.Text = "Desativar Anti-AFK"
+		conexaoAfk = game:GetService("Players").LocalPlayer.Idled:Connect(function()
+			game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+			wait(1)
+			game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+		end)
+	else
+		AntiAfkToggle.Text = "Ativar Anti-AFK"
+		if conexaoAfk then
+			conexaoAfk:Disconnect()
+			conexaoAfk = nil
+		end
+	end
+end)
