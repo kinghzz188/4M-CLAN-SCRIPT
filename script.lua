@@ -1,4 +1,19 @@
--- Interface KING SCRIPT (estilo VTBR CLAN SCRIPT)
+-- Interface KING SCRIPT com barra preta no topo
+
+-- Criar barra preta no topo
+local TopBar = Instance.new("TextLabel")
+TopBar.Text = "▼ KING SCRIPT"
+TopBar.Size = UDim2.new(0, 300, 0, 30)
+TopBar.Position = UDim2.new(0.5, -150, 0, 10)
+TopBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TopBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+TopBar.Font = Enum.Font.SourceSansBold
+TopBar.TextSize = 20
+TopBar.BorderSizePixel = 0
+TopBar.Name = "KingTopBar"
+TopBar.Parent = game:GetService("CoreGui")
+
+-- Script da interface Kavo
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("▼ KING SCRIPT", "DarkTheme")
 
@@ -14,7 +29,7 @@ MainSection:NewToggle("▶Auto Rock", "Farm automático na pedra", function(stat
     end
 end)
 
-MainSection:NewToggle("▶Rebirths", "Renascer automaticamente", function(state)
+MainSection:NewToggle("▶Rebirths", "Rebirth automático", function(state)
     if state then
         print("Rebirth ligado")
     else
@@ -34,25 +49,17 @@ MainSection:NewButton("▼ Stats", "Ver estatísticas", function()
     print("Mostrando stats...")
 end)
 
--- Outras Abas
-local Farm = Window:NewTab("Farm")
-Farm:NewSection("Breve")
+-- Abas vazias
+Window:NewTab("Farm"):NewSection("Breve")
+Window:NewTab("Pets"):NewSection("Breve")
+Window:NewTab("Misc"):NewSection("Breve")
+Window:NewTab("Killer"):NewSection("Breve")
+Window:NewTab("Teleport"):NewSection("Breve")
 
-local Pets = Window:NewTab("Pets")
-Pets:NewSection("Breve")
-
-local Misc = Window:NewTab("Misc")
-Misc:NewSection("Breve")
-
-local Killer = Window:NewTab("Killer")
-Killer:NewSection("Breve")
-
-local Teleport = Window:NewTab("Teleport")
-Teleport:NewSection("Breve")
-
+-- Créditos
 local Credits = Window:NewTab("Credits")
-local CreditsSection = Credits:NewSection("Feito por Sad & Nii.")
-CreditsSection:NewLabel("VTBR")
+Credits:NewSection("Script feito por Sad & Nii.")
+Credits:NewSection("VTBR")
 
--- Sucesso
-print("KING SCRIPT carregado com sucesso!")
+-- Mensagem final
+print("KING SCRIPT com barra personalizada carregado com sucesso!")
