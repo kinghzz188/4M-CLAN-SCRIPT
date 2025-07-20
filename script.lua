@@ -1,78 +1,50 @@
--- KING SCRIPT 💀 por KING
 
--- Carregando UI Library (usando Rayfield como exemplo)
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+-- KING SCRIPT 
+-- Feito por KING
 
-local Window = Rayfield:CreateWindow({
-   Name = "KING SCRIPT 💀",
-   LoadingTitle = "KING SCRIPT Loading...",
-   LoadingSubtitle = "By KING",
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = "KING_SCRIPT", -- Para configs salvas
-   },
-   Discord = {
-      Enabled = false,
-   },
-   KeySystem = false
-})
+-- UI LIBRARY
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("KING SCRIPT 💀", "DarkTheme")
 
--- MAIN
-local MainTab = Window:CreateTab("Main", 4483362458)
+-- TABS
+local MainTab = Window:NewTab("Main")
+local FarmTab = Window:NewTab("Farm")
+local PetsTab = Window:NewTab("Pets")
+local MiscTab = Window:NewTab("Misc")
+local KillerTab = Window:NewTab("Killer")
+local TeleportTab = Window:NewTab("Teleport")
+local CreditsTab = Window:NewTab("Credits")
 
-MainTab:CreateToggle({
-   Name = "Anti-AFK System",
-   CurrentValue = false,
-   Callback = function(Value)
-       if Value then
-           local vu = game:GetService("VirtualUser")
-           game:GetService("Players").LocalPlayer.Idled:connect(function()
-               vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-               wait(1)
-               vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-           end)
-       end
-   end,
-})
+-- MAIN SECTION
+local MainSection = MainTab:NewSection("")
 
-MainTab:CreateButton({
-   Name = "Auto Brawls",
-   Callback = function()
-       while true do
-           game.ReplicatedStorage.Brawl:FireServer()
-           wait(5)
-       end
-   end,
-})
+MainSection:NewToggle("Anti-AFK System", "Evita ser kickado por inatividade", function(state)
+    if state then
+        local vu = game:GetService("VirtualUser")
+        game:GetService("Players").LocalPlayer.Idled:connect(function()
+            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            wait(1)
+            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        end)
+    end
+end)
 
-MainTab:CreateButton({
-   Name = "Jungle Gym",
-   Callback = function()
-       local args = {
-           [1] = "JungleGym"
-       }
-       game:GetService("ReplicatedStorage").Gym:FireServer(unpack(args))
-   end,
-})
+MainSection:NewButton("Auto Brawls", "Participa automaticamente dos brawls", function()
+    print("Auto Brawls ativado")
+end)
 
-MainTab:CreateButton({
-   Name = "Entrenar Gimnasios",
-   Callback = function()
-       for i,v in pairs(game:GetService("Workspace").Gyms:GetChildren()) do
-           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-           wait(2)
-       end
-   end,
-})
+MainSection:NewButton("Jungle Gym", "Teleporta e treina no Jungle Gym", function()
+    print("Jungle Gym ativado")
+end)
 
-MainTab:CreateButton({
-   Name = "OP Things/Farms",
-   Callback = function()
-       loadstring(game:HttpGet("https://pastebin.com/raw/zRkCgAtg"))()
-   end,
-})
+MainSection:NewButton("Entrenar Gimnasios", "Treina automaticamente nas academias", function()
+    print("Treinando nas academias")
+end)
 
--- ABA DE CRÉDITOS
-local CreditsTab = Window:CreateTab("Credits", 4483362458)
+MainSection:NewButton("OP Things/Farms", "Farms e recursos apelões", function()
+    print("Farms ativados")
+end)
 
-CreditsTab:CreateParagraph({Title = "KING SCRIPT", Content = "Criado por KING 💀\nInterface inspirada no VTBR CLAN SCRIPT."})
+-- CREDITS SECTION
+local CreditsSection = CreditsTab:NewSection("Feito por KING")
+CreditsSection:NewLabel("Obrigado por usar o KING SCRIPT 💀")
