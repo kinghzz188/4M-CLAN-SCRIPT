@@ -1,81 +1,70 @@
--- Gui principal
-local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Tabs = Instance.new("Frame")
-local MiscButton = Instance.new("TextButton")
-local Pages = Instance.new("Frame")
-local MiscPage = Instance.new("Frame")
-local AntiAfkToggle = Instance.new("TextButton")
+-- Carrega a UI library Orion
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
--- Parent do Gui
-ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "4MCLAN_GUI"
-ScreenGui.ResetOnSpawn = false
+-- Janela principal
+local Window = OrionLib:MakeWindow({
+    Name = "4M CLAN SCRIPT",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "4MCLANCONFIG"
+})
 
--- MainFrame
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-MainFrame.Size = UDim2.new(0, 300, 0, 250)
-MainFrame.Position = UDim2.new(0.1, 0, 0.2, 0)
+-- Aba Main
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
--- Tabs
-Tabs.Name = "Tabs"
-Tabs.Parent = MainFrame
-Tabs.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-Tabs.Size = UDim2.new(1, 0, 0, 30)
+MainTab:AddButton({
+    Name = "Auto Rebirth",
+    Callback = function()
+        print("Auto Rebirth ativado")
+    end
+})
 
--- Botão da aba Misc
-MiscButton.Name = "MiscButton"
-MiscButton.Parent = Tabs
-MiscButton.Text = "Misc"
-MiscButton.Size = UDim2.new(0, 60, 1, 0)
-MiscButton.BackgroundColor3 = Color3.fromRGB(55, 55, 255)
-MiscButton.TextColor3 = Color3.new(1,1,1)
-MiscButton.MouseButton1Click:Connect(function()
-	Pages.MiscPage.Visible = true
-end)
+MainTab:AddButton({
+    Name = "Auto Upgrade",
+    Callback = function()
+        print("Auto Upgrade ativado")
+    end
+})
 
--- Páginas
-Pages.Name = "Pages"
-Pages.Parent = MainFrame
-Pages.Size = UDim2.new(1, 0, 1, -30)
-Pages.Position = UDim2.new(0, 0, 0, 30)
+MainTab:AddButton({
+    Name = "Auto Farm",
+    Callback = function()
+        print("Auto Farm ativado")
+    end
+})
 
--- Página Misc
-MiscPage.Name = "MiscPage"
-MiscPage.Parent = Pages
-MiscPage.Size = UDim2.new(1, 0, 1, 0)
-MiscPage.Visible = true
-MiscPage.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+-- Aba Teleport
+local TeleportTab = Window:MakeTab({
+    Name = "Teleport",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
--- Botão Anti AFK
-AntiAfkToggle.Name = "AntiAfkToggle"
-AntiAfkToggle.Parent = MiscPage
-AntiAfkToggle.Text = "Ativar Anti-AFK"
-AntiAfkToggle.Size = UDim2.new(0, 200, 0, 50)
-AntiAfkToggle.Position = UDim2.new(0, 50, 0, 50)
-AntiAfkToggle.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
-AntiAfkToggle.TextColor3 = Color3.new(1, 1, 1)
+TeleportTab:AddButton({Name = "Spawn", Callback = function() print("Teleport: Spawn") end})
+TeleportTab:AddButton({Name = "Secret Area", Callback = function() print("Teleport: Secret Area") end})
+TeleportTab:AddButton({Name = "Tiny Island", Callback = function() print("Teleport: Tiny Island") end})
+TeleportTab:AddButton({Name = "Teleport Frozen", Callback = function() print("Teleport: Frozen") end})
+TeleportTab:AddButton({Name = "Mythical", Callback = function() print("Teleport: Mythical") end})
+TeleportTab:AddButton({Name = "Inferno", Callback = function() print("Teleport: Inferno") end})
+TeleportTab:AddButton({Name = "Legend", Callback = function() print("Teleport: Legend") end})
+TeleportTab:AddButton({Name = "Muscle King Gym", Callback = function() print("Teleport: Gym") end})
+TeleportTab:AddButton({Name = "Jungle", Callback = function() print("Teleport: Jungle") end})
+TeleportTab:AddButton({Name = "Brawl Lava", Callback = function() print("Teleport: Lava") end})
+TeleportTab:AddButton({Name = "Brawl Desert", Callback = function() print("Teleport: Desert") end})
+TeleportTab:AddButton({Name = "Brawl Regular", Callback = function() print("Teleport: Regular") end})
 
--- Variável de controle
-local antiAfkAtivado = false
-local conexaoAfk = nil
+-- Aba Créditos
+local CreditsTab = Window:MakeTab({
+    Name = "Credits",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-AntiAfkToggle.MouseButton1Click:Connect(function()
-	antiAfkAtivado = not antiAfkAtivado
-	if antiAfkAtivado then
-		AntiAfkToggle.Text = "Desativar Anti-AFK"
-		conexaoAfk = game:GetService("Players").LocalPlayer.Idled:Connect(function()
-			game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-			wait(1)
-			game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-		end)
-	else
-		AntiAfkToggle.Text = "Ativar Anti-AFK"
-		if conexaoAfk then
-			conexaoAfk:Disconnect()
-			conexaoAfk = nil
-		end
-	end
-end)
+CreditsTab:AddParagraph("Script feito por", "Sad & Nii.\nVTBR")
+
+-- Inicializa a interface
+OrionLib:Init()
