@@ -2,21 +2,31 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("💪 KING SCRIPT - Muscle Legends", "DarkTheme")
 
--- Main
+-- Main Tab
 local Main = Window:NewTab("Main")
-local MainSection = Main:NewSection("Auto Farm")
+local FarmSection = Main:NewSection("Auto Farm")
 
--- Auto Rock (Farm Pedra)
+-- Variáveis
 local autoRock = false
-MainSection:NewToggle("Auto Rock", "Farm automático na pedra", function(state)
+local selectedRock = "Tiny Rock"
+
+-- Dropdown de Pedras
+FarmSection:NewDropdown("Selecionar Pedra", "Escolha a pedra para farmar", {
+    "Tiny Rock", "Starter Rock", "Legend Beach Rock", "Frozen Rock",
+    "Mythical Rock", "Eternal Rock", "Legend Rock", "Muscle King Rock", "Jungle Rock"
+}, function(option)
+    selectedRock = option
+end)
+
+-- Toggle Auto Rock
+FarmSection:NewToggle("Auto Rock", "Farm automático na pedra", function(state)
     autoRock = state
     if autoRock then
-        while autoRock and wait(0.2) do
-            local args = {
-                [1] = workspace:FindFirstChild("Rock"),
-                [2] = "Hit"
-            }
-            game:GetService("ReplicatedStorage").Events.StrengthEvent:FireServer(unpack(args))
+        while autoRock and wait(0.3) do
+            local rock = workspace:FindFirstChild(selectedRock)
+            if rock then
+                game:GetService("ReplicatedStorage").Events.StrengthEvent:FireServer(rock, "Hit")
+            end
         end
     end
 end)
