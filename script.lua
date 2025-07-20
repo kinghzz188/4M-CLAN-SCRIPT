@@ -1,55 +1,64 @@
 
--- KING SCRIPT 💀 - Interface VTBR Style
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+local Window = OrionLib:MakeWindow({
+    Name = "VTBR CLAN SCRIPT", 
+    HidePremium = false, 
+    SaveConfig = true, 
+    ConfigFolder = "VTBRCLAN"
+})
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("KING SCRIPT 💀", "DarkTheme")
+-- Aba Main
+local MainTab = Window:MakeTab({
+	Name = "Main",
+	Icon = "",
+	PremiumOnly = false
+})
 
--- Abas principais
-local Main = Window:NewTab("Main")
-local Farm = Window:NewTab("Farm")
-local Pets = Window:NewTab("Pets")
-local Misc = Window:NewTab("Misc")
-local Killer = Window:NewTab("Killer")
-local Teleport = Window:NewTab("Teleport")
-local Credits = Window:NewTab("Credits")
+MainTab:AddToggle({
+	Name = "Anti-AFK System",
+	Default = false,
+	Callback = function(Value)
+        -- código anti afk
+	end
+})
 
--- Seções dentro das Abas
-local MainSection = Main:NewSection("Main")
-local FarmSection = Farm:NewSection("Farm")
-local PetsSection = Pets:NewSection("Pets")
-local MiscSection = Misc:NewSection("Misc")
-local KillerSection = Killer:NewSection("Killer")
-local TeleportSection = Teleport:NewSection("Teleport")
-local CreditSection = Credits:NewSection("Créditos")
+MainTab:AddSection("Auto Brawls")
+MainTab:AddButton({
+	Name = "▶Auto Brawls",
+	Callback = function()
+        -- auto brawls code
+	end
+})
 
--- Botões principais (estilo VTBR)
-MainSection:NewToggle("Anti-AFK System", "Ativa sistema anti-AFK", function(state)
-    if state then
-        local vu = game:GetService("VirtualUser")
-        game:GetService("Players").LocalPlayer.Idled:connect(function()
-            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            wait(1)
-            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        end)
-    end
-end)
+MainTab:AddButton({
+	Name = "▶Jungle Gym",
+	Callback = function()
+        -- jungle gym code
+	end
+})
 
-MainSection:NewButton("Auto Brawls", "Entra automaticamente nos Brawls", function()
-    print("Auto Brawls ativado")
-end)
+MainTab:AddButton({
+	Name = "▶Entrenar Gimnasios",
+	Callback = function()
+        -- gym training code
+	end
+})
 
-MainSection:NewButton("Jungle Gym", "Teleporta para a Jungle Gym", function()
-    print("Jungle Gym ativado")
-end)
+MainTab:AddButton({
+	Name = "▶OP Things/Farms",
+	Callback = function()
+        -- OP farm code
+	end
+})
 
-MainSection:NewButton("Entrenar Gimnasios", "Treina automaticamente nos gimnasios", function()
-    print("Treino iniciado")
-end)
+-- Criar as outras abas
+local tabs = {"Farm", "Pets", "Misc", "Killer", "Teleport", "Credits"}
+for _, tabName in ipairs(tabs) do
+    Window:MakeTab({
+        Name = tabName,
+        Icon = "",
+        PremiumOnly = false
+    })
+end
 
-MainSection:NewButton("OP Things/Farms", "Coisas/Farms overpower", function()
-    print("OP Farms ativado")
-end)
-
--- Créditos
-CreditSection:NewLabel("Script feito por VTBR_KING")
-CreditSection:NewLabel("Interface baseada no VTBR CLAN SCRIPT")
+OrionLib:Init()
