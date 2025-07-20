@@ -1,20 +1,63 @@
--- VTBR CLAN SCRIPT Interface -- Criado por: kinghzz188 (4M CLAN)
+-- Interface KING SCRIPT
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("▼ KING SCRIPT", "DarkTheme")
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() local Window = Library.CreateLib("▼ VTBR CLAN SCRIPT", "DarkTheme")
+-- Main Tab
+local Main = Window:NewTab("Main")
+local MainSection = Main:NewSection("")
 
--- Aba Main local Main = Window:NewTab("Main") local MainSection = Main:NewSection("Main")
+MainSection:NewToggle("▶Auto Rock", "Farm automático na pedra", function(state)
+    if state then
+        print("Auto Rock ligado")
+    else
+        print("Auto Rock desligado")
+    end
+end)
 
-MainSection:NewButton("▶Auto Rock", "Ativa o farm na pedra", function() print("Auto Rock ativado") end)
+MainSection:NewToggle("▶Rebirths", "Rebirth automático", function(state)
+    if state then
+        print("Rebirth automático ligado")
+    else
+        print("Rebirth automático desligado")
+    end
+end)
 
-MainSection:NewButton("▶Rebirths", "Faz renascimento automático", function() print("Auto Rebirth ativado") end)
+MainSection:NewToggle("▶Auto Equip Tools", "Equipe ferramentas automaticamente", function(state)
+    if state then
+        print("Auto Equip Tools ligado")
+    else
+        print("Auto Equip Tools desligado")
+    end
+end)
 
-MainSection:NewButton("▶Auto Equip Tools", "Equipa ferramentas automaticamente", function() print("Auto Equip ativado") end)
+MainSection:NewButton("▼ Stats", "Ver estatísticas", function()
+    print("Mostrando stats...")
+end)
 
-MainSection:NewLabel("▼Stats") MainSection:NewLabel("Strength") MainSection:NewLabel("Actual: 2.10T") MainSection:NewLabel("Gained: 0") MainSection:NewLabel("Durability") MainSection:NewLabel("Actual: 6.12T") MainSection:NewLabel("Gained: 0") MainSection:NewLabel("Rebirths") MainSection:NewLabel("Actual: 18.98K")
+-- Farm Tab
+local Farm = Window:NewTab("Farm")
+local FarmSection = Farm:NewSection("Breve")
 
--- Outras abas (Farm, Pets, Misc, Killer, Teleport, Credits) Window:NewTab("Farm") Window:NewTab("Pets") Window:NewTab("Misc") Window:NewTab("Killer") Window:NewTab("Teleport")
+-- Pets Tab
+local Pets = Window:NewTab("Pets")
+local PetsSection = Pets:NewSection("Breve")
 
-local Credits = Window:NewTab("Credits") local CreditSection = Credits:NewSection("Créditos") CreditSection:NewLabel("Script feito por Sad & Nii.") CreditSection:NewLabel("VTBR")
+-- Misc Tab
+local Misc = Window:NewTab("Misc")
+local MiscSection = Misc:NewSection("Breve")
 
--- Fim do Script
+-- Killer Tab
+local Killer = Window:NewTab("Killer")
+local KillerSection = Killer:NewSection("Breve")
 
+-- Teleport Tab
+local Teleport = Window:NewTab("Teleport")
+local TeleportSection = Teleport:NewSection("Breve")
+
+-- Credits Tab
+local Credits = Window:NewTab("Credits")
+local CreditsSection = Credits:NewSection("Script feito por Sad & Nii.")
+CreditsSection:NewLabel("VTBR")
+
+-- Final
+print("Interface carregada com sucesso!")
