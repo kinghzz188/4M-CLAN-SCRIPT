@@ -1,28 +1,20 @@
--- Notificação ao iniciar
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "4M CLAN SCRIPT",
-    Text = "Script iniciado com sucesso!",
-    Duration = 3
-})
+-- Interface simples de teste
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 200, 0, 100)
+Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 
--- Auto Tap
-task.spawn(function()
-    while true do
-        task.wait(0.1)
-        local args = {
-            [1] = "Treinar"
-        }
-        game:GetService("ReplicatedStorage").Remotes.Treinar:FireServer(unpack(args))
-    end
-end)
+local Button = Instance.new("TextButton", Frame)
+Button.Size = UDim2.new(1, 0, 1, 0)
+Button.Text = "Clique aqui"
+Button.BackgroundColor3 = Color3.fromRGB(60, 60, 255)
+Button.TextColor3 = Color3.new(1, 1, 1)
 
--- Auto Rebirth (com quantidade 1, você pode mudar se quiser)
-task.spawn(function()
-    while true do
-        task.wait(5) -- tempo entre os rebirths
-        local args = {
-            [1] = 1 -- número de rebirths (mude se quiser mais)
-        }
-        game:GetService("ReplicatedStorage").Remotes.Rebirth:FireServer(unpack(args))
-    end
+Button.MouseButton1Click:Connect(function()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "4M CLAN SCRIPT",
+        Text = "Botão funcionando!",
+        Duration = 3
+    })
 end)
