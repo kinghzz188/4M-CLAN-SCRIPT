@@ -1,4 +1,4 @@
--- Remove barra antiga com nome "VTBR CLAN SCRIPT"
+-- Remove interface antiga "VTBR CLAN SCRIPT"
 for _, v in pairs(game.CoreGui:GetChildren()) do
     if v.Name == "VTBR CLAN SCRIPT" then
         v:Destroy()
@@ -51,20 +51,4 @@ local PetsSection = Pets:NewSection("Breve")
 
 -- Misc Tab
 local Misc = Window:NewTab("Misc")
-local MiscSection = Misc:NewSection("Breve")
-
--- Killer Tab
-local Killer = Window:NewTab("Killer")
-local KillerSection = Killer:NewSection("Breve")
-
--- Teleport Tab
-local Teleport = Window:NewTab("Teleport")
-local TeleportSection = Teleport:NewSection("Breve")
-
--- Credits Tab
-local Credits = Window:NewTab("Credits")
-local CreditsSection = Credits:NewSection("Script feito por Sad & Nii.")
-CreditsSection:NewLabel("KING SCRIPT")
-
--- Final
-print("Interface KING SCRIPT carregada com sucesso!")
+local MiscSection = Misc
