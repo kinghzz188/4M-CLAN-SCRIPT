@@ -10,5 +10,7 @@
 
 -- Auto Rebirth MainSection:NewToggle("Auto Rebirth", "Renascimentos automáticos", function(state) _G.AutoRebirth = state while _G.AutoRebirth do game:GetService("ReplicatedStorage").RemoteEvent:FireServer("Rebirth") wait(5) end end)
 
--- Auto Equip Tools MainSection:NewToggle("Auto Equip Tools", "Equipe ferramentas automaticamente", function(state) _G.AutoEquip = state
+-- Auto Equip Tools MainSection:NewToggle("Auto Equip Tools", "Equipe ferramentas automaticamente", function(state) _G.AutoEquip = state while _G.AutoEquip do for _, tool in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do if tool:IsA("Tool") then game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool) end end wait(3) end end)
+
+-- Créditos local Credit = Window:NewTab("Créditos") local CreditSection = Credit:NewSection("Script criado por KING 💀")
 
