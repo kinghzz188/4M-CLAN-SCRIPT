@@ -1,75 +1,65 @@
--- Destrói versão antiga se existir
+-- Destroi se já existir
 pcall(function()
-	if game.CoreGui:FindFirstChild("KING_SCRIPT") then
-		game.CoreGui.KING_SCRIPT:Destroy()
-	end
+	game.CoreGui:FindFirstChild("KING_GUI"):Destroy()
 end)
 
 -- GUI principal
-local gui = Instance.new("ScreenGui")
-gui.Name = "KING_SCRIPT"
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "KING_GUI"
 gui.ResetOnSpawn = false
-gui.Parent = game:GetService("CoreGui")
 
--- Botão de coroa flutuante
-local toggleBtn = Instance.new("ImageButton")
-toggleBtn.Name = "ToggleButton"
-toggleBtn.Parent = gui
-toggleBtn.Size = UDim2.new(0, 60, 0, 60)
-toggleBtn.Position = UDim2.new(0, 20, 0.5, -30)
-toggleBtn.BackgroundTransparency = 1
-toggleBtn.Image = "http://www.roblox.com/asset/?id=15245511671" -- Ícone coroa
+-- Botão flutuante com coroa
+local icon = Instance.new("ImageButton", gui)
+icon.Name = "AbrirFechar"
+icon.Size = UDim2.new(0, 60, 0, 60)
+icon.Position = UDim2.new(0, 30, 0.5, -30)
+icon.BackgroundTransparency = 1
+icon.Image = "http://www.roblox.com/asset/?id=15245511671" -- ícone de coroa
 
--- Efeito de flutuação
-local RS = game:GetService("RunService")
-local baseY = toggleBtn.Position.Y.Offset
-local time = 0
-
-RS.RenderStepped:Connect(function(dt)
-	time += dt * 2
-	local offset = math.sin(time) * 5
-	toggleBtn.Position = UDim2.new(0, 20, 0.5, baseY + offset)
+-- Flutuação
+local RunService = game:GetService("RunService")
+local yBase = icon.Position.Y.Offset
+local t = 0
+RunService.RenderStepped:Connect(function(dt)
+	t += dt * 2
+	icon.Position = UDim2.new(0, 30, 0.5, yBase + math.sin(t) * 5)
 end)
 
--- Menu principal
-local menu = Instance.new("Frame")
-menu.Parent = gui
-menu.Size = UDim2.new(0, 300, 0, 180)
-menu.Position = UDim2.new(0.5, -150, 0.5, -90)
-menu.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+-- Menu
+local menu = Instance.new("Frame", gui)
+menu.Name = "KingMenu"
+menu.Size = UDim2.new(0, 300, 0, 150)
+menu.Position = UDim2.new(0.5, -150, 0.5, -75)
+menu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 menu.BorderSizePixel = 0
 menu.Visible = false
 menu.Active = true
 menu.Draggable = true
 
 -- Título
-local title = Instance.new("TextLabel")
-title.Parent = menu
+local title = Instance.new("TextLabel", menu)
 title.Size = UDim2.new(1, 0, 0, 40)
-title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 title.Text = "👑 KING MENU"
 title.TextColor3 = Color3.new(1, 1, 1)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 22
 
 -- Botão Auto Punch
-local autoPunch = Instance.new("TextButton")
-autoPunch.Parent = menu
-autoPunch.Size = UDim2.new(1, -20, 0, 40)
-autoPunch.Position = UDim2.new(0, 10, 0, 60)
-autoPunch.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-autoPunch.Text = "⚡ Auto Punch"
-autoPunch.TextColor3 = Color3.new(1, 1, 1)
-autoPunch.Font = Enum.Font.GothamBold
-autoPunch.TextSize = 18
+local button = Instance.new("TextButton", menu)
+button.Size = UDim2.new(1, -20, 0, 40)
+button.Position = UDim2.new(0, 10, 0, 60)
+button.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+button.TextColor3 = Color3.new(1, 1, 1)
+button.Font = Enum.Font.GothamBold
+button.TextSize = 18
+button.Text = "⚡ Auto Punch"
 
-autoPunch.MouseButton1Click:Connect(function()
+button.MouseButton1Click:Connect(function()
 	print("Auto Punch ativado!")
 end)
 
--- Mostrar/ocultar menu
-local menuAberto = false
-toggleBtn.MouseButton1Click:Connect(function()
-	menuAberto = not menuAberto
-	menu.Visible = menuAberto
+-- Alternar exibição do menu
+icon.MouseButton1Click:Connect(function()
+	menu.Visible = not menu.Visible
 end)
