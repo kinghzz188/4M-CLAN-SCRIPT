@@ -1,18 +1,78 @@
--- KING SCRIPT - Versão com interface flutuante idêntica ao VTBR CLAN SCRIPT
+-- KING SCRIPT INTERFACE
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("👑 KING SCRIPT", "DarkTheme")
 
--- Biblioteca de interface local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() local Window = Library.CreateLib("▼ KING SCRIPT", "DarkTheme")
+-- Funções ativas
+local autoRock = false
+local autoRebirth = false
+local autoEquip = false
 
--- Variáveis de controle getgenv().autoRock = false
+-- Função Auto Rock
+spawn(function()
+    while true do
+        wait(0.1)
+        if autoRock then
+            local rock = workspace:FindFirstChild("Rock")
+            if rock then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = rock.CFrame
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, rock, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, rock, 1)
+            end
+        end
+    end
+end)
 
--- Função Auto Rock real function AutoRock() spawn(function() while autoRock do local args = { [1] = workspace:FindFirstChild("Rock") } pcall(function() if args[1] then game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HitRock"):FireServer(args[1]) end end) task.wait(0.2) end end) end
+-- Função Auto Rebirth
+spawn(function()
+    while true do
+        wait(1)
+        if autoRebirth then
+            local args = {
+                [1] = "rebirth"
+            }
+            game:GetService("ReplicatedStorage").events.RemoteFunction:InvokeServer(unpack(args))
+        end
+    end
+end)
 
--- Abas local Main = Window:NewTab("Main") local MainSection = Main:NewSection("Automatizações")
+-- Função Auto Equip
+spawn(function()
+    while true do
+        wait(1)
+        if autoEquip then
+            local args = {
+                [1] = "equipbest"
+            }
+            game:GetService("ReplicatedStorage").events.RemoteFunction:InvokeServer(unpack(args))
+        end
+    end
+end)
 
-MainSection:NewToggle("▶ Auto Rock", "Farm automático em rochas", function(value) autoRock = value if value then AutoRock() end end)
+-- Anti AFK
+local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
 
-MainSection:NewButton("▼ Stats", "Mostra estatísticas (exemplo)", function() game:GetService("StarterGui"):SetCore("SendNotification", { Title = "KING SCRIPT", Text = "Estatísticas não disponíveis ainda.", Duration = 3 }) end)
+-- Tabs
+local Main = Window:NewTab("Main")
+local Section = Main:NewSection("Funções")
 
-local Credits = Window:NewTab("Credits") local CreditsSection = Credits:NewSection("Desenvolvido por KING") CreditsSection:NewLabel("Script criado por Sad & Nii") CreditsSection:NewLabel("Personalizado por kinghzz188")
+Section:NewToggle("🪨 Auto Rock", "Farm automático na pedra", function(state)
+    autoRock = state
+end)
 
-print("KING SCRIPT carregado com sucesso!")
+Section:NewToggle("🔁 Auto Rebirth", "Rebirth automático", function(state)
+    autoRebirth = state
+end)
 
+Section:NewToggle("🛠️ Auto Equip", "Equipe as melhores ferramentas", function(state)
+    autoEquip = state
+end)
+
+-- Créditos
+local Credits = Window:NewTab("Créditos")
+local C = Credits:NewSection("Feito por KING e ChatGPT")
+C:NewLabel("Repositório: 4M-CLAN-SCRIPT")
