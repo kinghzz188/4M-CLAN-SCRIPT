@@ -1,87 +1,86 @@
-local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-local TabBar = Instance.new("Frame")
-local ContentFrame = Instance.new("Frame")
+-- KING SCRIPT Menu with Floating Button
 
-local Tabs = {
-    {Name = "Main", Buttons = {"Auto Rock", "Rebirths", "Auto Equip", "Stats"}},
-    {Name = "Farm", Buttons = {}},
-    {Name = "Pets", Buttons = {}},
-    {Name = "Misc", Buttons = {}},
-    {Name = "Killer", Buttons = {}},
-    {Name = "Teleport", Buttons = {}},
-    {Name = "Credits", Buttons = {"Created by KING"}}
-}
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "KING_SCRIPT_GUI"
 
-ScreenGui.Name = "KingScriptGUI"
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Main Frame (menu)
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 300, 0, 350)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -175)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+mainFrame.BorderSizePixel = 0
+mainFrame.Visible = false
+mainFrame.Parent = gui
 
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = ScreenGui
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-MainFrame.Size = UDim2.new(0, 600, 0, 350)
-MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-MainFrame.BorderSizePixel = 0
-MainFrame.Active = true
-MainFrame.Draggable = true
+-- UICorner for rounded edges
+local corner = Instance.new("UICorner", mainFrame)
+corner.CornerRadius = UDim.new(0, 10)
 
-Title.Name = "Title"
-Title.Parent = MainFrame
-Title.Text = "KING SCRIPT"
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 25
-Title.Size = UDim2.new(1, 0, 0, 40)
-Title.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+-- Title
+local title = Instance.new("TextLabel", mainFrame)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+title.Text = "KING SCRIPT"
+title.Font = Enum.Font.GothamBold
+title.TextColor3 = Color3.new(1,1,1)
+title.TextScaled = true
 
-TabBar.Name = "TabBar"
-TabBar.Parent = MainFrame
-TabBar.Position = UDim2.new(0, 0, 0, 40)
-TabBar.Size = UDim2.new(1, 0, 0, 30)
-TabBar.BackgroundTransparency = 1
+-- Tab Buttons
+local function createTabButton(name, y)
+	local button = Instance.new("TextButton", mainFrame)
+	button.Size = UDim2.new(1, -20, 0, 35)
+	button.Position = UDim2.new(0, 10, 0, y)
+	button.Text = name
+	button.Font = Enum.Font.Gotham
+	button.TextColor3 = Color3.new(1, 1, 1)
+	button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	button.BorderSizePixel = 0
+	local btnCorner = Instance.new("UICorner", button)
+	btnCorner.CornerRadius = UDim.new(0, 8)
+	return button
+end
 
-ContentFrame.Name = "ContentFrame"
-ContentFrame.Parent = MainFrame
-ContentFrame.Position = UDim2.new(0, 0, 0, 70)
-ContentFrame.Size = UDim2.new(1, 0, 1, -70)
-ContentFrame.BackgroundTransparency = 1
+local tabNames = {"Main", "Farm", "Pets", "Misc", "Killer", "Teleport", "Credits"}
+for i, name in ipairs(tabNames) do
+	createTabButton(name, 40 + (i-1)*40)
+end
 
-local function createContent(buttons)
-	ContentFrame:ClearAllChildren()
-	for i, btnName in ipairs(buttons) do
-		local Button = Instance.new("TextButton")
-		Button.Parent = ContentFrame
-		Button.Text = btnName
-		Button.Font = Enum.Font.SourceSans
-		Button.TextSize = 20
-		Button.Size = UDim2.new(0.9, 0, 0, 35)
-		Button.Position = UDim2.new(0.05, 0, 0, (i - 1) * 40)
-		Button.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-		Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Button.BorderSizePixel = 0
-		Button.MouseButton1Click:Connect(function()
-			print("Clicked:", btnName)
-		end)
+-- Floating Toggle Button (black square)
+local toggleBtn = Instance.new("ImageButton", gui)
+toggleBtn.Size = UDim2.new(0, 40, 0, 40)
+toggleBtn.Position = UDim2.new(1, -50, 1, -50)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+toggleBtn.BorderSizePixel = 0
+local btnCorner = Instance.new("UICorner", toggleBtn)
+btnCorner.CornerRadius = UDim.new(1, 0)
+
+-- Draggable
+local dragging, dragInput, dragStart, startPos
+toggleBtn.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = toggleBtn.Position
 	end
-end
+end)
+toggleBtn.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
+end)
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		local delta = input.Position - dragStart
+		toggleBtn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+end)
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
 
--- Criar botões de aba
-for i, tab in ipairs(Tabs) do
-	local TabBtn = Instance.new("TextButton")
-	TabBtn.Parent = TabBar
-	TabBtn.Text = tab.Name
-	TabBtn.Font = Enum.Font.SourceSans
-	TabBtn.TextSize = 16
-	TabBtn.Size = UDim2.new(0, 80, 1, 0)
-	TabBtn.Position = UDim2.new(0, (i - 1) * 85, 0, 0)
-	TabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-	TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-	TabBtn.MouseButton1Click:Connect(function()
-		createContent(tab.Buttons)
-	end)
-end
-
--- Carregar primeira aba
-createContent(Tabs[1].Buttons)
+-- Show/hide menu on click
+toggleBtn.MouseButton1Click:Connect(function()
+	mainFrame.Visible = not mainFrame.Visible
+end)
