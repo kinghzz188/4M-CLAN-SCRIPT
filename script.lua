@@ -1,72 +1,112 @@
--- Criação da GUI
-local gui = Instance.new("ScreenGui", game.CoreGui)
-gui.ResetOnSpawn = false
+-- VTBR CLAN STYLE UI SCRIPT
+local ScreenGui = Instance.new("ScreenGui")
+local ToggleButton = Instance.new("TextButton")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TabsFrame = Instance.new("Frame")
+local Tabs = {"Main", "Farm", "Pets", "Misc", "Killer", "Teleport", "Credits"}
 
--- Função de Auto Farm (simula clique no botão de treinar)
-local farming = false
-function startFarm()
-    farming = true
-    while farming do
-        -- Alvo do clique (botão de soco ou exercício no Muscle Legends)
-        game:GetService("ReplicatedStorage").Events.ClickEvent:FireServer()
-        wait(0.1) -- velocidade do clique
-    end
-end
+local TabButtons = {}
+local SelectedTab = "Main"
 
--- Parar Auto Farm
-function stopFarm()
-    farming = false
-end
+-- Submenus simulados
+local Menus = {
+    Main = {"Auto Rock", "Rebirths", "Auto Equip Tools", "Stats"},
+    Farm = {"Farm A", "Farm B"},
+    Pets = {"Auto Hatch", "Equip Best"},
+    Misc = {"Speed Hack", "Jump Boost"},
+    Killer = {"Auto Kill", "Target Player"},
+    Teleport = {"City", "Gym", "Arena"},
+    Credits = {"Script by VTBR_KING"}
+}
 
--- Menu principal
-local menu = Instance.new("Frame", gui)
-menu.Size = UDim2.new(0, 300, 0, 200)
-menu.Position = UDim2.new(0.5, -150, 0.5, -100)
-menu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-menu.Visible = false
-menu.Active = true
-menu.Draggable = true
+-- Configurações
+ScreenGui.Name = "VTBRCLAN_SCRIPT"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+-- Botão flutuante
+ToggleButton.Size = UDim2.new(0, 40, 0, 40)
+ToggleButton.Position = UDim2.new(0, 520, 0, 120)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ToggleButton.Text = ""
+ToggleButton.Draggable = true
+ToggleButton.Active = true
+ToggleButton.Parent = ScreenGui
+
+-- Janela principal
+MainFrame.Size = UDim2.new(0, 450, 0, 300)
+MainFrame.Position = UDim2.new(0.5, -225, 0.5, -150)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.Visible = false
+MainFrame.Parent = ScreenGui
 
 -- Título
-local title = Instance.new("TextLabel", menu)
-title.Size = UDim2.new(1, 0, 0, 40)
-title.Text = "KING SCRIPT MENU"
-title.TextColor3 = Color3.new(1, 1, 1)
-title.BackgroundTransparency = 1
-title.Font = Enum.Font.GothamBold
-title.TextSize = 20
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundTransparency = 1
+Title.Text = "VTBR CLAN SCRIPT"
+Title.TextColor3 = Color3.new(1,1,1)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 22
+Title.Parent = MainFrame
 
--- Botão Main Farm
-local farmBtn = Instance.new("TextButton", menu)
-farmBtn.Size = UDim2.new(0.8, 0, 0, 40)
-farmBtn.Position = UDim2.new(0.1, 0, 0.3, 0)
-farmBtn.Text = "Main Farm [OFF]"
-farmBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-farmBtn.TextColor3 = Color3.new(1, 1, 1)
-farmBtn.Font = Enum.Font.Gotham
-farmBtn.TextSize = 16
-farmBtn.MouseButton1Click:Connect(function()
-    if farming then
-        stopFarm()
-        farmBtn.Text = "Main Farm [OFF]"
-        farmBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    else
-        startFarm()
-        farmBtn.Text = "Main Farm [ON]"
-        farmBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+-- Área de abas
+TabsFrame.Size = UDim2.new(1, 0, 0, 30)
+TabsFrame.Position = UDim2.new(0, 0, 0, 30)
+TabsFrame.BackgroundTransparency = 1
+TabsFrame.Parent = MainFrame
+
+-- Criar abas
+for i, name in ipairs(Tabs) do
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 60, 1, 0)
+    btn.Position = UDim2.new(0, (i - 1) * 65, 0, 0)
+    btn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.Text = name
+    btn.Font = Enum.Font.SourceSansBold
+    btn.TextSize = 14
+    btn.Parent = TabsFrame
+
+    btn.MouseButton1Click:Connect(function()
+        SelectedTab = name
+        for _, c in pairs(MainFrame:GetChildren()) do
+            if c:IsA("Frame") and c.Name == "MenuFrame" then
+                c:Destroy()
+            end
+        end
+        showMenu(name)
+    end)
+
+    TabButtons[name] = btn
+end
+
+-- Mostrar menu de cada aba
+function showMenu(tab)
+    local menuFrame = Instance.new("Frame")
+    menuFrame.Name = "MenuFrame"
+    menuFrame.Size = UDim2.new(1, -10, 1, -65)
+    menuFrame.Position = UDim2.new(0, 5, 0, 60)
+    menuFrame.BackgroundTransparency = 1
+    menuFrame.Parent = MainFrame
+
+    for i, item in ipairs(Menus[tab]) do
+        local btn = Instance.new("TextButton")
+        btn.Size = UDim2.new(1, -10, 0, 30)
+        btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35)
+        btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        btn.TextColor3 = Color3.new(1, 1, 1)
+        btn.Text = "▶️ " .. item
+        btn.Font = Enum.Font.SourceSans
+        btn.TextSize = 16
+        btn.Parent = menuFrame
     end
-end)
+end
 
--- Botão flutuante para abrir menu (fixo no canto superior esquerdo)
-local toggleButton = Instance.new("ImageButton", gui)
-toggleButton.Size = UDim2.new(0, 50, 0, 50)
-toggleButton.Position = UDim2.new(0, 115, 0, 15) -- posição exata como na imagem
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- quadrado preto
-toggleButton.Image = "" -- futuramente pode usar um link de imagem
-toggleButton.Active = true
-toggleButton.Draggable = true -- flutua
+-- Mostrar aba inicial
+showMenu("Main")
 
--- Toggle visibilidade do menu
-toggleButton.MouseButton1Click:Connect(function()
-    menu.Visible = not menu.Visible
+-- Toggle do menu
+ToggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
 end)
