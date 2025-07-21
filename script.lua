@@ -1,20 +1,92 @@
---// KING SCRIPT MENU FLUTUANTE (SOME/APARECE COM CLIQUE) //
+-- // KING SCRIPT - Menu Flutuante com Toggle \\ --
 
--- Cria a GUI principal local ScreenGui = Instance.new("ScreenGui") ScreenGui.Name = "KingScriptGUI" ScreenGui.ResetOnSpawn = false ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+local CoreGui = game:GetService("CoreGui")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
--- Cria o botão de abrir/fechar menu local ToggleButton = Instance.new("TextButton") ToggleButton.Size = UDim2.new(0, 100, 0, 40) ToggleButton.Position = UDim2.new(0, 10, 0, 10) ToggleButton.Text = "📜 Menu" ToggleButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45) ToggleButton.TextColor3 = Color3.new(1, 1, 1) ToggleButton.Parent = ScreenGui
+-- Remove menus anteriores (evita duplicação)
+if CoreGui:FindFirstChild("KingScriptUI") then
+    CoreGui:FindFirstChild("KingScriptUI"):Destroy()
+end
 
--- Cria o Frame do menu principal local MainFrame = Instance.new("Frame") MainFrame.Size = UDim2.new(0, 300, 0, 200) MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100) MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25) MainFrame.BorderSizePixel = 0 MainFrame.Visible = true MainFrame.Active = true MainFrame.Draggable = true MainFrame.Parent = ScreenGui
+-- Interface principal
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "KingScriptUI"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
 
--- Título local Title = Instance.new("TextLabel") Title.Text = "👑 KING SCRIPT" Title.Size = UDim2.new(1, 0, 0, 40) Title.BackgroundColor3 = Color3.fromRGB(35, 35, 35) Title.TextColor3 = Color3.new(1, 1, 1) Title.Font = Enum.Font.SourceSansBold Title.TextScaled = true Title.Parent = MainFrame
+-- Botão para abrir/fechar menu
+local ToggleButton = Instance.new("TextButton", ScreenGui)
+ToggleButton.Size = UDim2.new(0, 100, 0, 30)
+ToggleButton.Position = UDim2.new(0, 10, 0, 10)
+ToggleButton.Text = "📜 Menu"
+ToggleButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.Font = Enum.Font.SourceSansBold
+ToggleButton.TextSize = 18
 
--- Botão de Auto Punch local AutoPunch = Instance.new("TextButton") AutoPunch.Text = "Auto Punch 👊" AutoPunch.Size = UDim2.new(1, -20, 0, 40) AutoPunch.Position = UDim2.new(0, 10, 0, 60) AutoPunch.BackgroundColor3 = Color3.fromRGB(50, 50, 50) AutoPunch.TextColor3 = Color3.new(1, 1, 1) AutoPunch.Parent = MainFrame
+-- Menu Principal
+local MainFrame = Instance.new("Frame", ScreenGui)
+MainFrame.Size = UDim2.new(0, 300, 0, 200)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+MainFrame.BorderSizePixel = 0
+MainFrame.Visible = true
+MainFrame.Active = true
+MainFrame.Draggable = true
 
--- Botão de Fast Punch local FastPunch = Instance.new("TextButton") FastPunch.Text = "Fast Punch ⚡" FastPunch.Size = UDim2.new(1, -20, 0, 40) FastPunch.Position = UDim2.new(0, 10, 0, 110) FastPunch.BackgroundColor3 = Color3.fromRGB(50, 50, 50) FastPunch.TextColor3 = Color3.new(1, 1, 1) FastPunch.Parent = MainFrame
+-- Título
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Text = "👑 KING SCRIPT"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 20
 
--- Mostra/Esconde o menu ao clicar no botão ToggleButton.MouseButton1Click:Connect(function() MainFrame.Visible = not MainFrame.Visible end)
+-- Botão Combate
+local CombatTab = Instance.new("TextLabel", MainFrame)
+CombatTab.Size = UDim2.new(0, 120, 0, 30)
+CombatTab.Position = UDim2.new(0, 10, 0, 40)
+CombatTab.Text = "🥊 COMBATE"
+CombatTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+CombatTab.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+CombatTab.Font = Enum.Font.GothamBold
+CombatTab.TextSize = 16
+CombatTab.TextXAlignment = Enum.TextXAlignment.Left
+CombatTab.TextYAlignment = Enum.TextYAlignment.Center
 
--- Funções dos botões (apenas prints como exemplo) AutoPunch.MouseButton1Click:Connect(function() print("Auto Punch ativado") end)
+-- Botão Auto Punch
+local AutoPunch = Instance.new("TextButton", MainFrame)
+AutoPunch.Size = UDim2.new(0, 280, 0, 30)
+AutoPunch.Position = UDim2.new(0, 10, 0, 80)
+AutoPunch.Text = "⚡ Auto Punch"
+AutoPunch.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+AutoPunch.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoPunch.Font = Enum.Font.GothamBold
+AutoPunch.TextSize = 16
 
-FastPunch.MouseButton1Click:Connect(function() print("Fast Punch ativado") end)
+-- Botão Fast Punch
+local FastPunch = Instance.new("TextButton", MainFrame)
+FastPunch.Size = UDim2.new(0, 280, 0, 30)
+FastPunch.Position = UDim2.new(0, 10, 0, 120)
+FastPunch.Text = "⚡ Fast Punch"
+FastPunch.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+FastPunch.TextColor3 = Color3.fromRGB(255, 255, 255)
+FastPunch.Font = Enum.Font.GothamBold
+FastPunch.TextSize = 16
 
+-- Mostrar/Ocultar o menu
+ToggleButton.MouseButton1Click:Connect(function()
+	MainFrame.Visible = not MainFrame.Visible
+end)
+
+-- Funções de exemplo (coloque seu código aqui)
+AutoPunch.MouseButton1Click:Connect(function()
+    print("Auto Punch ativado!") -- aqui vai sua função real
+end)
+
+FastPunch.MouseButton1Click:Connect(function()
+    print("Fast Punch ativado!") -- aqui vai sua função real
+end)
