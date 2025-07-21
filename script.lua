@@ -1,27 +1,28 @@
--- VTBR CLAN UI - Flutuante sem emojis
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+-- VTBR CLAN UI 100% IGUAL À IMAGEM
+local player = game.Players.LocalPlayer
 local gui = player:WaitForChild("PlayerGui")
 
--- GUI Principal
+-- Criar GUI principal
 local ScreenGui = Instance.new("ScreenGui", gui)
 ScreenGui.Name = "VTBRCLAN_SCRIPT"
 ScreenGui.ResetOnSpawn = false
 
--- Botão flutuante
+-- Botão preto para abrir
 local OpenButton = Instance.new("TextButton", ScreenGui)
 OpenButton.Size = UDim2.new(0, 40, 0, 40)
 OpenButton.Position = UDim2.new(0, 20, 0, 120)
 OpenButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+OpenButton.BorderSizePixel = 0
 OpenButton.Text = ""
 OpenButton.Draggable = true
 OpenButton.Active = true
 
--- Menu Principal
+-- Frame principal do menu
 local MainFrame = Instance.new("Frame", ScreenGui)
 MainFrame.Size = UDim2.new(0, 500, 0, 320)
 MainFrame.Position = UDim2.new(0.5, -250, 0.5, -160)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.BorderSizePixel = 0
 MainFrame.Visible = false
 MainFrame.Active = true
 MainFrame.Draggable = true
@@ -29,13 +30,14 @@ MainFrame.Draggable = true
 -- Título
 local Title = Instance.new("TextLabel", MainFrame)
 Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundTransparency = 1
 Title.Text = "VTBR CLAN SCRIPT"
 Title.TextColor3 = Color3.new(1,1,1)
 Title.Font = Enum.Font.SourceSansBold
 Title.TextSize = 22
 
--- Tabs
+-- Abas
 local TabsFrame = Instance.new("Frame", MainFrame)
 TabsFrame.Size = UDim2.new(1, 0, 0, 30)
 TabsFrame.Position = UDim2.new(0, 0, 0, 30)
@@ -71,6 +73,7 @@ local function ShowMenu(tab)
         Btn.Size = UDim2.new(1, -10, 0, 30)
         Btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35)
         Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        Btn.BorderColor3 = Color3.fromRGB(60, 60, 60)
         Btn.TextColor3 = Color3.new(1, 1, 1)
         Btn.Text = item
         Btn.Font = Enum.Font.SourceSans
@@ -78,13 +81,14 @@ local function ShowMenu(tab)
     end
 end
 
--- Criar botões de abas
+-- Criar os botões das abas
 local i = 0
 for tabName, _ in pairs(Tabs) do
     local Btn = Instance.new("TextButton", TabsFrame)
     Btn.Size = UDim2.new(0, 70, 1, 0)
     Btn.Position = UDim2.new(0, i * 75, 0, 0)
     Btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    Btn.BorderSizePixel = 0
     Btn.TextColor3 = Color3.new(1,1,1)
     Btn.Text = tabName
     Btn.Font = Enum.Font.SourceSansBold
@@ -101,7 +105,7 @@ end
 -- Mostrar tab inicial
 ShowMenu(SelectedTab)
 
--- Toggle do botão
+-- Função para abrir/fechar
 OpenButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
 end)
