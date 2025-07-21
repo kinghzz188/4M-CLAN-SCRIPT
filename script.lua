@@ -1,111 +1,87 @@
--- VTBR CLAN UI 100% IGUAL À IMAGEM
-local player = game.Players.LocalPlayer
-local gui = player:WaitForChild("PlayerGui")
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TabBar = Instance.new("Frame")
+local ContentFrame = Instance.new("Frame")
 
--- Criar GUI principal
-local ScreenGui = Instance.new("ScreenGui", gui)
-ScreenGui.Name = "VTBRCLAN_SCRIPT"
-ScreenGui.ResetOnSpawn = false
+local Tabs = {
+    {Name = "Main", Buttons = {"Auto Rock", "Rebirths", "Auto Equip", "Stats"}},
+    {Name = "Farm", Buttons = {}},
+    {Name = "Pets", Buttons = {}},
+    {Name = "Misc", Buttons = {}},
+    {Name = "Killer", Buttons = {}},
+    {Name = "Teleport", Buttons = {}},
+    {Name = "Credits", Buttons = {"Created by KING"}}
+}
 
--- Botão preto para abrir
-local OpenButton = Instance.new("TextButton", ScreenGui)
-OpenButton.Size = UDim2.new(0, 40, 0, 40)
-OpenButton.Position = UDim2.new(0, 20, 0, 120)
-OpenButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-OpenButton.BorderSizePixel = 0
-OpenButton.Text = ""
-OpenButton.Draggable = true
-OpenButton.Active = true
+ScreenGui.Name = "KingScriptGUI"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Frame principal do menu
-local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 500, 0, 320)
-MainFrame.Position = UDim2.new(0.5, -250, 0.5, -160)
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Size = UDim2.new(0, 600, 0, 350)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 MainFrame.BorderSizePixel = 0
-MainFrame.Visible = false
 MainFrame.Active = true
 MainFrame.Draggable = true
 
--- Título
-local Title = Instance.new("TextLabel", MainFrame)
-Title.Size = UDim2.new(1, 0, 0, 30)
-Title.Position = UDim2.new(0, 0, 0, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "VTBR CLAN SCRIPT"
-Title.TextColor3 = Color3.new(1,1,1)
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.Text = "KING SCRIPT"
 Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 22
+Title.TextSize = 25
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 
--- Abas
-local TabsFrame = Instance.new("Frame", MainFrame)
-TabsFrame.Size = UDim2.new(1, 0, 0, 30)
-TabsFrame.Position = UDim2.new(0, 0, 0, 30)
-TabsFrame.BackgroundTransparency = 1
+TabBar.Name = "TabBar"
+TabBar.Parent = MainFrame
+TabBar.Position = UDim2.new(0, 0, 0, 40)
+TabBar.Size = UDim2.new(1, 0, 0, 30)
+TabBar.BackgroundTransparency = 1
 
-local Tabs = {
-    Principal = {"Auto Rock", "Reencarnações", "Auto Equip Tools", "Stats"},
-    Farm = {},
-    Animais = {},
-    Misc = {},
-    Assassino = {},
-    Teletransporte = {},
-    Credits = {}
-}
+ContentFrame.Name = "ContentFrame"
+ContentFrame.Parent = MainFrame
+ContentFrame.Position = UDim2.new(0, 0, 0, 70)
+ContentFrame.Size = UDim2.new(1, 0, 1, -70)
+ContentFrame.BackgroundTransparency = 1
 
-local SelectedTab = "Principal"
-
-local function ShowMenu(tab)
-    for _, child in pairs(MainFrame:GetChildren()) do
-        if child.Name == "MenuFrame" then
-            child:Destroy()
-        end
-    end
-
-    local MenuFrame = Instance.new("Frame", MainFrame)
-    MenuFrame.Name = "MenuFrame"
-    MenuFrame.Size = UDim2.new(1, -10, 1, -65)
-    MenuFrame.Position = UDim2.new(0, 5, 0, 60)
-    MenuFrame.BackgroundTransparency = 1
-
-    for i, item in ipairs(Tabs[tab]) do
-        local Btn = Instance.new("TextButton", MenuFrame)
-        Btn.Size = UDim2.new(1, -10, 0, 30)
-        Btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35)
-        Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        Btn.BorderColor3 = Color3.fromRGB(60, 60, 60)
-        Btn.TextColor3 = Color3.new(1, 1, 1)
-        Btn.Text = item
-        Btn.Font = Enum.Font.SourceSans
-        Btn.TextSize = 16
-    end
+local function createContent(buttons)
+	ContentFrame:ClearAllChildren()
+	for i, btnName in ipairs(buttons) do
+		local Button = Instance.new("TextButton")
+		Button.Parent = ContentFrame
+		Button.Text = btnName
+		Button.Font = Enum.Font.SourceSans
+		Button.TextSize = 20
+		Button.Size = UDim2.new(0.9, 0, 0, 35)
+		Button.Position = UDim2.new(0.05, 0, 0, (i - 1) * 40)
+		Button.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+		Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Button.BorderSizePixel = 0
+		Button.MouseButton1Click:Connect(function()
+			print("Clicked:", btnName)
+		end)
+	end
 end
 
--- Criar os botões das abas
-local i = 0
-for tabName, _ in pairs(Tabs) do
-    local Btn = Instance.new("TextButton", TabsFrame)
-    Btn.Size = UDim2.new(0, 70, 1, 0)
-    Btn.Position = UDim2.new(0, i * 75, 0, 0)
-    Btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    Btn.BorderSizePixel = 0
-    Btn.TextColor3 = Color3.new(1,1,1)
-    Btn.Text = tabName
-    Btn.Font = Enum.Font.SourceSansBold
-    Btn.TextSize = 14
-
-    Btn.MouseButton1Click:Connect(function()
-        SelectedTab = tabName
-        ShowMenu(tabName)
-    end)
-
-    i = i + 1
+-- Criar botões de aba
+for i, tab in ipairs(Tabs) do
+	local TabBtn = Instance.new("TextButton")
+	TabBtn.Parent = TabBar
+	TabBtn.Text = tab.Name
+	TabBtn.Font = Enum.Font.SourceSans
+	TabBtn.TextSize = 16
+	TabBtn.Size = UDim2.new(0, 80, 1, 0)
+	TabBtn.Position = UDim2.new(0, (i - 1) * 85, 0, 0)
+	TabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TabBtn.MouseButton1Click:Connect(function()
+		createContent(tab.Buttons)
+	end)
 end
 
--- Mostrar tab inicial
-ShowMenu(SelectedTab)
-
--- Função para abrir/fechar
-OpenButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-end)
+-- Carregar primeira aba
+createContent(Tabs[1].Buttons)
