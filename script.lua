@@ -1,93 +1,96 @@
--- KING SCRIPT UI
+-- GUI KING SCRIPT FUNCIONAL
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-gui.Name = "KingScriptUI"
+gui.Name = "KING_CLAN_UI"
 gui.ResetOnSpawn = false
 
 -- Botão flutuante
-local toggleButton = Instance.new("ImageButton", gui)
-toggleButton.Size = UDim2.new(0, 50, 0, 50)
-toggleButton.Position = UDim2.new(0, 20, 0.5, -25)
-toggleButton.Image = "rbxassetid://6031071053" -- ícone temporário
-toggleButton.BackgroundTransparency = 1
-toggleButton.ZIndex = 3
+local toggle = Instance.new("ImageButton", gui)
+toggle.Size = UDim2.new(0, 50, 0, 50)
+toggle.Position = UDim2.new(0, 20, 0.5, -25)
+toggle.BackgroundTransparency = 1
+toggle.Image = "rbxassetid://7743878859" -- ícone ninja ou o que preferir
+toggle.ZIndex = 10
 
 -- Janela principal
-local mainFrame = Instance.new("Frame", gui)
-mainFrame.Size = UDim2.new(0, 400, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-mainFrame.BorderSizePixel = 0
-mainFrame.Visible = false
-mainFrame.ZIndex = 2
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 500, 0, 300)
+frame.Position = UDim2.new(0.5, -250, 0.5, -150)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+frame.Visible = false
+frame.ZIndex = 5
 
 -- Draggable
-mainFrame.Active = true
-mainFrame.Draggable = true
-
--- Título
-local title = Instance.new("TextLabel", mainFrame)
-title.Size = UDim2.new(1, 0, 0, 40)
-title.BackgroundTransparency = 1
-title.Text = "KING SCRIPT"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.Font = Enum.Font.GothamBold
-title.TextSize = 22
+frame.Active = true
+frame.Draggable = true
 
 -- Menu lateral
-local sideMenu = Instance.new("Frame", mainFrame)
-sideMenu.Size = UDim2.new(0, 100, 1, -40)
-sideMenu.Position = UDim2.new(0, 0, 0, 40)
-sideMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-
-local buttons = {
-    "Main",
-    "Farm",
-    "Misc",
-    "Teleport",
-    "Killer",
-    "Pets",
-    "Credits"
-}
+local menu = Instance.new("Frame", frame)
+menu.Size = UDim2.new(0, 100, 1, 0)
+menu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 
 -- Área de conteúdo
-local contentFrame = Instance.new("Frame", mainFrame)
-contentFrame.Size = UDim2.new(1, -100, 1, -40)
-contentFrame.Position = UDim2.new(0, 100, 0, 40)
-contentFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+local content = Instance.new("Frame", frame)
+content.Size = UDim2.new(1, -100, 1, 0)
+content.Position = UDim2.new(0, 100, 0, 0)
+content.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 
--- Função para limpar conteúdo
-local function clearContent()
-    for _, child in ipairs(contentFrame:GetChildren()) do
-        if not child:IsA("UIListLayout") then
-            child:Destroy()
-        end
-    end
+-- Título
+local title = Instance.new("TextLabel", menu)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+title.Text = "VTBR SCRIPT"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+
+-- Função de limpeza
+local function clear()
+	for _, v in ipairs(content:GetChildren()) do
+		if not v:IsA("UIListLayout") then v:Destroy() end
+	end
 end
 
--- Criar botões do menu
-for _, name in ipairs(buttons) do
-    local btn = Instance.new("TextButton", sideMenu)
-    btn.Size = UDim2.new(1, 0, 0, 30)
-    btn.Text = name
-    btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 14
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+-- Lista layout
+local layout = Instance.new("UIListLayout", content)
+layout.Padding = UDim.new(0, 5)
+layout.SortOrder = Enum.SortOrder.LayoutOrder
 
-    btn.MouseButton1Click:Connect(function()
-        clearContent()
-        local label = Instance.new("TextLabel", contentFrame)
-        label.Size = UDim2.new(1, 0, 0, 30)
-        label.Text = "Coming soon: " .. name
-        label.Font = Enum.Font.Gotham
-        label.TextSize = 14
-        label.TextColor3 = Color3.fromRGB(200, 200, 200)
-        label.BackgroundTransparency = 1
-    end)
+-- Criação dos botões do menu
+local sections = {
+	["Main"] = {"Auto Rock", "Rebirths", "Auto Equip Tools", "Stats"},
+	["Farm"] = {"Auto Farm", "Auto Collect"},
+	["Misc"] = {"Anti AFK", "WalkSpeed"},
+	["Teleport"] = {"To Beach", "To Gym"},
+	["Killer"] = {"Auto Kill", "Kill Aura"},
+	["Pets"] = {"Auto Hatch", "Equip Best"},
+	["Credits"] = {"Script by KING"}
+}
+
+for name, options in pairs(sections) do
+	local btn = Instance.new("TextButton", menu)
+	btn.Size = UDim2.new(1, 0, 0, 30)
+	btn.Text = name
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 14
+	btn.TextColor3 = Color3.new(1, 1, 1)
+	btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+
+	btn.MouseButton1Click:Connect(function()
+		clear()
+		for _, text in ipairs(options) do
+			local opt = Instance.new("TextButton", content)
+			opt.Size = UDim2.new(1, -10, 0, 30)
+			opt.Text = "▶ " .. text
+			opt.Font = Enum.Font.Gotham
+			opt.TextSize = 14
+			opt.TextColor3 = Color3.fromRGB(255, 255, 255)
+			opt.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		end
+	end)
 end
 
--- Mostrar/ocultar janela ao clicar no botão
-toggleButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
+-- Toggle da UI
+toggle.MouseButton1Click:Connect(function()
+	frame.Visible = not frame.Visible
 end)
